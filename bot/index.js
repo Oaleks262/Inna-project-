@@ -1,9 +1,10 @@
 const TelegramBot = require('node-telegram-bot-api');
 const path = require('path');
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
 
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const OWNER_CHAT_ID = process.env.TELEGRAM_OWNER_CHAT_ID;
+const OWNER_CHAT_ID = String(process.env.TELEGRAM_OWNER_CHAT_ID || '');
 const SITE_URL = process.env.SITE_URL || 'https://inna-corset.lviv.ua';
 
 const REQUESTS_FILE = path.join(__dirname, '../data/requests.json');
@@ -18,15 +19,17 @@ function writeRequests(data) {
 const bot = new TelegramBot(TOKEN, { polling: true });
 
 // ─── Стан діалогу клієнтів ────────────────────────────────────────────────────
-const sessions = new Map(); // chat_id → { step, name, type, size, contact, message }
+// chat_id → { step: 'name'|'type'|'size'|'contact'|'message'|'done', name, type, size, contact, message }
+const sessions = new Map();
 
 function newSession() {
   return { step: 'name', name: '', type: '', size: '', contact: '', message: '' };
 }
 
-// ─── Режим 1: Нотифікатор — заявки з сайту ───────────────────────────────────
+// ─── Нотифікатор (глобально для server.js) ───────────────────────────────────
 
-global.notifyNewRequest = function(request) {
+global.notifyNewRequest = function (request) {
+  if (!OWNER_CHAT_ID) return;
   const text =
     `🆕 *Нова заявка з сайту*\n\n` +
     `👤 Ім'я: ${request.name}\n` +
@@ -47,16 +50,19 @@ global.notifyNewRequest = function(request) {
   }).catch(err => console.error('Telegram notify error:', err.message));
 };
 
-global.sendTelegramTest = function() {
-  return bot.sendMessage(OWNER_CHAT_ID, '✅ Тестове повідомлення від бота сайту Інни Ляховської. Бот працює коректно.');
+global.sendTelegramTest = function () {
+  return bot.sendMessage(OWNER_CHAT_ID,
+    '✅ Тестове повідомлення від бота сайту Інни Ляховської. Бот працює коректно.');
 };
 
-// ─── Callback для кнопок ──────────────────────────────────────────────────────
+// ─── Єдиний обробник callback_query ──────────────────────────────────────────
 
 bot.on('callback_query', async (query) => {
   const { data, message, from } = query;
+  const chatId = String(from.id);
+  const isOwner = chatId === OWNER_CHAT_ID;
 
-  // viewed:<id> — позначити заявку з сайту
+  // 1. Позначити заявку з сайту як переглянуту
   if (data.startsWith('viewed:')) {
     const id = data.split(':')[1];
     const requests = readRequests();
@@ -68,30 +74,43 @@ bot.on('callback_query', async (query) => {
       bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
         chat_id: message.chat.id,
         message_id: message.message_id
-      });
+      }).catch(() => {});
+    } else {
+      bot.answerCallbackQuery(query.id, { text: 'Заявку не знайдено' });
     }
     return;
   }
 
-  // Кнопки діалогового боту
-  const session = sessions.get(String(from.id));
-  if (!session) return bot.answerCallbackQuery(query.id);
+  // 2. Команди Інни (cmd_)
+  if (data.startsWith('cmd_') && isOwner) {
+    bot.answerCallbackQuery(query.id);
+    if (data === 'cmd_new')   sendNewRequests(chatId);
+    if (data === 'cmd_stats') sendStats(chatId);
+    if (data === 'cmd_help')  sendHelp(chatId);
+    return;
+  }
+
+  // 3. Кнопки клієнтського діалогу
+  const session = sessions.get(chatId);
+  if (!session) {
+    bot.answerCallbackQuery(query.id);
+    return;
+  }
 
   if (session.step === 'type' && ['wedding', 'evening', 'casual'].includes(data)) {
     session.type = { wedding: 'Весільний', evening: 'Вечірній', casual: 'Casual' }[data];
     session.step = 'size';
     bot.answerCallbackQuery(query.id);
-    bot.sendMessage(from.id,
-      `Чудовий вибір!\n\nВкажіть ваш розмір (орієнтовно):`,
-      {
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: 'XS', callback_data: 'XS' }, { text: 'S', callback_data: 'S' }, { text: 'M', callback_data: 'M' }, { text: 'L', callback_data: 'L' }],
-            [{ text: 'XL', callback_data: 'XL' }, { text: 'XXL', callback_data: 'XXL' }, { text: 'XXXL', callback_data: 'XXXL' }, { text: 'Не знаю', callback_data: 'unknown' }]
-          ]
-        }
+    bot.sendMessage(chatId, 'Чудовий вибір!\n\nВкажіть ваш розмір (орієнтовно):', {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: 'XS', callback_data: 'XS' }, { text: 'S', callback_data: 'S' },
+           { text: 'M', callback_data: 'M' },  { text: 'L', callback_data: 'L' }],
+          [{ text: 'XL', callback_data: 'XL' }, { text: 'XXL', callback_data: 'XXL' },
+           { text: 'XXXL', callback_data: 'XXXL' }, { text: 'Не знаю', callback_data: 'unknown' }]
+        ]
       }
-    );
+    });
     return;
   }
 
@@ -99,45 +118,41 @@ bot.on('callback_query', async (query) => {
     session.size = data === 'unknown' ? 'Не знаю' : data;
     session.step = 'contact';
     bot.answerCallbackQuery(query.id);
-    bot.sendMessage(from.id, 'Вкажіть ваш номер телефону або Telegram,\nщоб Інна могла з вами зв\'язатись:');
+    bot.sendMessage(chatId,
+      'Вкажіть ваш номер телефону або Telegram,\nщоб Інна могла з вами зв\'язатись:');
     return;
   }
 
   if (session.step === 'message' && data === 'skip') {
     session.message = '';
-    session.step = 'done';
     bot.answerCallbackQuery(query.id);
-    finishBotOrder(from.id, session);
-    return;
-  }
-
-  if (data === `view_site`) {
-    bot.answerCallbackQuery(query.id, { url: SITE_URL });
+    await finishBotOrder(chatId, session);
     return;
   }
 
   bot.answerCallbackQuery(query.id);
 });
 
-// ─── Режим 2: Діалоговий бот ──────────────────────────────────────────────────
+// ─── Обробник повідомлень ─────────────────────────────────────────────────────
 
-bot.on('message', (msg) => {
+bot.on('message', async (msg) => {
+  if (!msg.text) return;
   const chatId = String(msg.chat.id);
-  const text = (msg.text || '').trim();
-  const isOwner = chatId === String(OWNER_CHAT_ID);
+  const text = msg.text.trim();
+  const isOwner = chatId === OWNER_CHAT_ID;
 
-  // Команди для Інни
+  // Команди Інни
   if (isOwner) {
-    if (text === '/start') return sendOwnerMenu(chatId);
-    if (text === '/new') return sendNewRequests(chatId);
-    if (text === '/stats') return sendStats(chatId);
-    if (text === '/help') return sendHelp(chatId);
+    if (text === '/start') { sendOwnerMenu(chatId); return; }
+    if (text === '/new')   { sendNewRequests(chatId); return; }
+    if (text === '/stats') { sendStats(chatId); return; }
+    if (text === '/help')  { sendHelp(chatId); return; }
   }
 
-  // Клієнтський діалог
-  if (!sessions.has(chatId)) {
+  // Клієнтський /start або перше повідомлення — починаємо діалог
+  if (text === '/start' || !sessions.has(chatId)) {
     sessions.set(chatId, newSession());
-    return bot.sendMessage(chatId,
+    bot.sendMessage(chatId,
       `Привіт! 👗\n\n` +
       `Я помічник Інни Ляховської —\n` +
       `майстра корсетного пошиву у Львові.\n\n` +
@@ -145,6 +160,7 @@ bot.on('message', (msg) => {
       `Це займе буквально 1 хвилину 🙂\n\n` +
       `Як вас звати?`
     );
+    return;
   }
 
   const session = sessions.get(chatId);
@@ -152,24 +168,25 @@ bot.on('message', (msg) => {
   if (session.step === 'name') {
     session.name = text;
     session.step = 'type';
-    return bot.sendMessage(chatId,
+    bot.sendMessage(chatId,
       `Приємно познайомитись, ${session.name}! ✨\n\nЯкий тип корсету вас цікавить?`,
       {
         reply_markup: {
           inline_keyboard: [
             [{ text: '👰 Весільний', callback_data: 'wedding' }],
-            [{ text: '🌙 Вечірній', callback_data: 'evening' }],
-            [{ text: '👗 Casual', callback_data: 'casual' }]
+            [{ text: '🌙 Вечірній',  callback_data: 'evening' }],
+            [{ text: '👗 Casual',    callback_data: 'casual'  }]
           ]
         }
       }
     );
+    return;
   }
 
   if (session.step === 'contact') {
     session.contact = text;
     session.step = 'message';
-    return bot.sendMessage(chatId,
+    bot.sendMessage(chatId,
       `Є якісь побажання або питання?\n(матеріал, колір, особливості фігури...)`,
       {
         reply_markup: {
@@ -177,24 +194,25 @@ bot.on('message', (msg) => {
         }
       }
     );
+    return;
   }
 
   if (session.step === 'message') {
     session.message = text;
-    session.step = 'done';
-    return finishBotOrder(chatId, session);
+    await finishBotOrder(chatId, session);
+    return;
   }
 
+  // Якщо діалог завершено — починаємо новий
   if (session.step === 'done') {
-    sessions.delete(chatId);
     sessions.set(chatId, newSession());
     bot.sendMessage(chatId, 'Як вас звати?');
   }
 });
 
-async function finishBotOrder(chatId, session) {
-  const { v4: uuidv4 } = require('uuid');
+// ─── Завершення замовлення ────────────────────────────────────────────────────
 
+async function finishBotOrder(chatId, session) {
   const newRequest = {
     id: uuidv4(),
     name: session.name,
@@ -216,31 +234,35 @@ async function finishBotOrder(chatId, session) {
     `✅ Дякую, ${session.name}!\n\n` +
     `Ваша заявка:\n` +
     `┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄\n` +
-    `👗 Тип:      ${session.type}\n` +
-    `📐 Розмір:   ${session.size}\n` +
-    `📱 Контакт:  ${session.contact}\n` +
+    `👗 Тип:       ${session.type}\n` +
+    `📐 Розмір:    ${session.size}\n` +
+    `📱 Контакт:   ${session.contact}\n` +
     `💬 Побажання: ${session.message || '—'}\n` +
     `┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄\n\n` +
     `Інна отримала вашу заявку і зв'яжеться\n` +
     `з вами протягом 2 годин 🤝`,
     {
       reply_markup: {
-        inline_keyboard: [[{ text: '🌐 Переглянути роботи на сайті', url: SITE_URL }]]
+        inline_keyboard: [[
+          { text: '🌐 Переглянути роботи на сайті', url: SITE_URL }
+        ]]
       }
     }
   );
 
   // Повідомлення Інні
-  bot.sendMessage(OWNER_CHAT_ID,
-    `🆕 *Замовлення через Telegram бот*\n\n` +
-    `👤 Ім'я:      ${session.name}\n` +
-    `📱 Контакт:   ${session.contact}\n` +
-    `👗 Тип:       ${session.type}\n` +
-    `📐 Розмір:    ${session.size}\n` +
-    `💬 Побажання: ${session.message || '—'}\n` +
-    `🕐 ${new Date().toLocaleString('uk-UA')}`,
-    { parse_mode: 'Markdown' }
-  ).catch(() => {});
+  if (OWNER_CHAT_ID) {
+    bot.sendMessage(OWNER_CHAT_ID,
+      `🆕 *Замовлення через Telegram бот*\n\n` +
+      `👤 Ім'я:      ${session.name}\n` +
+      `📱 Контакт:   ${session.contact}\n` +
+      `👗 Тип:       ${session.type}\n` +
+      `📐 Розмір:    ${session.size}\n` +
+      `💬 Побажання: ${session.message || '—'}\n` +
+      `🕐 ${new Date().toLocaleString('uk-UA')}`,
+      { parse_mode: 'Markdown' }
+    ).catch(() => {});
+  }
 
   sessions.delete(chatId);
 }
@@ -251,8 +273,9 @@ function sendOwnerMenu(chatId) {
   bot.sendMessage(chatId, 'Головне меню:', {
     reply_markup: {
       inline_keyboard: [
-        [{ text: '📋 Нові заявки', callback_data: 'cmd_new' }, { text: '📊 Статистика', callback_data: 'cmd_stats' }],
-        [{ text: '⚙️ Допомога', callback_data: 'cmd_help' }]
+        [{ text: '📋 Нові заявки', callback_data: 'cmd_new' },
+         { text: '📊 Статистика',  callback_data: 'cmd_stats' }],
+        [{ text: '⚙️ Допомога',    callback_data: 'cmd_help' }]
       ]
     }
   });
@@ -264,11 +287,15 @@ function sendNewRequests(chatId) {
     return bot.sendMessage(chatId, '📋 Нових заявок немає');
   }
   const lines = requests.slice(0, 10).map((r, i) => {
-    const date = new Date(r.createdAt);
-    const d = `${date.getDate()}.${String(date.getMonth()+1).padStart(2,'0')} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
-    return `${i+1}. ${r.name} · ${r.phone} · ${r.portfolioItem || r.size}\n   💬 ${r.message || '—'}\n   🕐 ${d}`;
+    const d = new Date(r.createdAt);
+    const stamp = `${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')} `
+      + `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    return `${i+1}. ${r.name} · ${r.phone} · ${r.portfolioItem || r.size}\n   💬 ${r.message || '—'}\n   🕐 ${stamp}`;
   }).join('\n\n');
-  bot.sendMessage(chatId, `📋 *Нові заявки (статус: new)*\n\n${lines}\n\nВсього нових: ${requests.length}`, { parse_mode: 'Markdown' });
+  bot.sendMessage(chatId,
+    `📋 *Нові заявки (статус: new)*\n\n${lines}\n\nВсього нових: ${requests.length}`,
+    { parse_mode: 'Markdown' }
+  );
 }
 
 function sendStats(chatId) {
@@ -276,9 +303,11 @@ function sendStats(chatId) {
   const now = new Date();
   const today = all.filter(r => {
     const d = new Date(r.createdAt);
-    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && d.getDate() === now.getDate();
+    return d.getFullYear() === now.getFullYear()
+      && d.getMonth() === now.getMonth()
+      && d.getDate() === now.getDate();
   }).length;
-  const week = all.filter(r => (now - new Date(r.createdAt)) < 7 * 86400000).length;
+  const week  = all.filter(r => (now - new Date(r.createdAt)) < 7 * 86400000).length;
   const month = all.filter(r => {
     const d = new Date(r.createdAt);
     return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
@@ -307,16 +336,5 @@ function sendHelp(chatId) {
     `Команди:\n/new    — нові заявки\n/stats  — статистика\n/help   — ця довідка`
   );
 }
-
-// Обробка cmd_ кнопок в меню Інни
-bot.on('callback_query', (query) => {
-  if (!query.data.startsWith('cmd_')) return;
-  const chatId = String(query.from.id);
-  if (chatId !== String(OWNER_CHAT_ID)) return bot.answerCallbackQuery(query.id);
-  bot.answerCallbackQuery(query.id);
-  if (query.data === 'cmd_new') sendNewRequests(chatId);
-  if (query.data === 'cmd_stats') sendStats(chatId);
-  if (query.data === 'cmd_help') sendHelp(chatId);
-});
 
 module.exports = bot;

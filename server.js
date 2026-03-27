@@ -40,13 +40,24 @@ if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_OWNER_CHAT_ID) {
   }
 }
 
-// ─── SPA Fallback (повертаємо index.html для невідомих маршрутів) ─────────────
-app.get('*', (req, res) => {
-  // Не перехоплювати API
+// ─── Чисті URL без .html ──────────────────────────────────────────────────────
+const cleanRoutes = {
+  '/portfolio': 'portfolio.html',
+  '/privacy':   'privacy.html',
+  '/terms':     'terms.html',
+};
+Object.entries(cleanRoutes).forEach(([route, file]) => {
+  app.get(route, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', file));
+  });
+});
+
+// ─── 404 ──────────────────────────────────────────────────────────────────────
+app.use((req, res) => {
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'Маршрут не знайдено' });
   }
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
 // ─── Start ────────────────────────────────────────────────────────────────────

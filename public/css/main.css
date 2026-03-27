@@ -24,14 +24,11 @@ cursor: none;
 -webkit-font-smoothing: antialiased;
 }
 
+/* ── Hide default cursor everywhere on desktop ── */
+html, body, *, *::before, *::after { cursor: none !important; }
+
 /* iOS Safari — reset link color globally */
 a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
-
-/* ── Hide default cursor on all interactive elements (desktop) ── */
-a, button, label, select, input, textarea,
-[role="button"], [tabindex], summary {
-  cursor: none;
-}
 
 /* ── NEEDLE CURSOR ── */
 .cursor-needle {
@@ -905,12 +902,12 @@ nav.scrolled { padding: 16px 24px; }
 .nav-links, .nav-cta { display: none; }
 .burger { display: -webkit-flex; display: flex; }
 
-body { cursor: auto; }
+html, body, *, *::before, *::after { cursor: auto !important; }
 .cursor, .cursor-ring { display: none; }
 .btn-primary, .btn-ghost, .form-submit, .filter-btn,
 .nav-cta, .nav-links a, .portfolio-item,
-.testimonial-card, .social-link, .footer-link { cursor: pointer; }
-.form-input, .form-select, .form-textarea { cursor: text; }
+.testimonial-card, .social-link, .footer-link { cursor: pointer !important; }
+.form-input, .form-select, .form-textarea { cursor: text !important; }
 
 .hero-left { padding: 88px 24px 56px; }
 .hero-actions {

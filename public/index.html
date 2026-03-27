@@ -525,6 +525,10 @@ cursor: pointer;
 transition: all .3s;
 }
 .filter-btn:hover, .filter-btn.active { color: #080808; background: #B8965A; border-color: #B8965A; }
+.portfolio-more { text-align: center; margin-top: clamp(40px,6vw,64px); display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.btn-outline-gold { display: inline-block; padding: 14px 40px; border: 1px solid #B8965A; color: #B8965A; text-decoration: none; font-family: 'Jost', system-ui, sans-serif; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; transition: all .3s; }
+.btn-outline-gold:hover { background: #B8965A; color: #080808; }
+.portfolio-count { font-family: 'Jost', system-ui, sans-serif; font-size: 13px; color: #9A9187; letter-spacing: .06em; }
 .portfolio-grid {
 display: grid;
 grid-template-columns: repeat(3, 1fr);
@@ -1176,6 +1180,10 @@ section { padding: 64px 24px; }
         <div class="portfolio-overlay"><div class="portfolio-cat">Casual</div><div class="portfolio-name">Міська романтика</div></div>
       </div>
     </div>
+  </div>
+  <div class="portfolio-more reveal">
+    <a href="/portfolio.html" class="btn-outline-gold">Переглянути всі роботи →</a>
+    <span class="portfolio-count">340+ робіт</span>
   </div>
 </section>
 

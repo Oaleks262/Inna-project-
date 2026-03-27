@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Пошив корсетів Львів — індивідуальні корсети ручної роботи | Інна Ляховська</title>
+<meta name="description" content="Індивідуальний пошив корсетів у Львові. Ручна робота, преміум матеріали, ідеальна посадка. Замовляйте корсет для весілля, фотосесії чи особливої події — від 4500 грн.">
+<meta name="keywords" content="корсет Львів, пошив корсетів Львів, індивідуальний корсет, корсет на замовлення, весільний корсет Львів">
+<meta name="author" content="Інна Ляховська">
+<meta property="og:title" content="Пошив корсетів Львів | Інна Ляховська">
+<meta property="og:description" content="Індивідуальні корсети ручної роботи у Львові. Від 4500 грн · 3–4 тижні.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uk_UA">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+–black: #080808;
+–white: #F8F5F0;
+–gold: #B8965A;
+–gold-light: #D4B483;
+–gold-dim: rgba(184,150,90,0.15);
+–gray: #9A9187;
+–gray-light: #E8E4DF;
+–serif: ‘Cormorant Garamond’, Georgia, serif;
+–sans: ‘Jost’, sans-serif;
+}
+
+html { scroll-behavior: smooth; background: #080808; }
+
+body {
+background: #080808;
+color: #F8F5F0;
+font-family: ‘Jost’, sans-serif;
+font-weight: 300;
+overflow-x: hidden;
+cursor: none;
+-webkit-font-smoothing: antialiased;
+}
+
+/* iOS Safari — reset link color globally */
+a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+
+/* ── NEEDLE CURSOR ── */
+.cursor-needle {
+position: fixed;
+top: 0; left: 0;
+pointer-events: none;
+z-index: 9999;
+opacity: 0;
+will-change: transform;
+}
+.cursor-needle svg { display: block; filter: drop-shadow(0 1px 4px rgba(0,0,0,0.5)); }
+.cursor-needle.hovering svg { filter: drop-shadow(0 0 8px rgba(184,150,90,0.8)); }
+.needle-eye { stroke: #B8965A; }
+.cursor-needle.hovering .needle-eye { stroke: #FFE88A; }
+#threadCanvas {
+position: fixed;
+top: 0; left: 0;
+width: 100%; height: 100%;
+pointer-events: none;
+z-index: 9997;
+}
+
+/* Grain overlay */
+body::before {
+content: ‘’;
+position: fixed;
+top: 0; right: 0; bottom: 0; left: 0;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘noise’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23noise)’ opacity=‘1’/%3E%3C/svg%3E”);
+opacity: 0.035;
+pointer-events: none;
+z-index: 9000;
+}
+
+/* ─── NAV ─── */
+nav {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+z-index: 100;
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: space-between;
+justify-content: space-between;
+padding: 28px 48px;
+transition: padding .4s, background .4s;
+/* iOS Safari: force GPU layer so fixed stays truly fixed */
+-webkit-transform: translate3d(0,0,0);
+transform: translate3d(0,0,0);
+-webkit-backface-visibility: hidden;
+backface-visibility: hidden;
+}
+nav.scrolled {
+padding: 18px 48px;
+background: rgba(8,8,8,0.92);
+-webkit-backdrop-filter: blur(20px);
+backdrop-filter: blur(20px);
+border-bottom: 1px solid rgba(184,150,90,0.12);
+}
+.nav-logo {
+font-family: ‘Cormorant Garamond’, Georgia, serif;
+font-size: 1.25rem;
+font-weight: 400;
+letter-spacing: 0.08em;
+color: #F8F5F0;
+display: -webkit-flex;
+display: flex;
+-webkit-flex-direction: column;
+flex-direction: column;
+line-height: 1.1;
+}
+.nav-logo span {
+font-size: 0.6rem;
+font-family: ‘Jost’, sans-serif;
+font-weight: 300;
+letter-spacing: 0.3em;
+color: #B8965A;
+text-transform: uppercase;
+}
+.nav-links {
+display: -webkit-flex;
+display: flex;
+gap: 40px;
+list-style: none;
+}
+.nav-links a {
+font-family: ‘Jost’, sans-serif;
+font-size: 0.72rem;
+font-weight: 400;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: rgba(248,245,240,0.65);
+transition: color .3s;
+position: relative;
+cursor: none;
+}
+.nav-links a::after {
+content: ‘’;
+position: absolute;
+bottom: -4px; left: 0;
+width: 0; height: 1px;
+background: #B8965A;
+transition: width .3s;
+}
+.nav-links a:hover { color: #F8F5F0; }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+font-family: ‘Jost’, sans-serif;
+font-size: 0.7rem;
+font-weight: 400;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: #080808;
+background: #B8965A;
+border: none;
+padding: 12px 28px;
+cursor: none;
+transition: background .3s;
+}
+.nav-cta:hover { background: #D4B483; }
+
+/* Burger */
+.burger {
+display: none;
+-webkit-flex-direction: column;
+flex-direction: column;
+gap: 5px;
+cursor: pointer;
+background: none;
+border: none;
+padding: 4px;
+z-index: 110;
+}
+.burger span {
+display: block;
+width: 26px; height: 1px;
+background: #F8F5F0;
+transition: all .3s;
+}
+.burger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Mobile menu */
+.mobile-menu {
+display: none;
+position: fixed;
+top: 0; left: 0; right: 0; bottom: 0;
+background: #080808;
+z-index: 90;
+-webkit-flex-direction: column;
+flex-direction: column;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;
+gap: 40px;
+}
+.mobile-menu.open { display: -webkit-flex; display: flex; }
+.mobile-menu a {
+font-family: ‘Cormorant Garamond’, Georgia, serif;
+font-size: clamp(2rem, 8vw, 3.5rem);
+font-weight: 300;
+font-style: italic;
+color: #F8F5F0;
+transition: color .3s;
+}
+.mobile-menu a:hover { color: #B8965A; }
+
+/* ─── HERO ─── */
+#hero {
+position: relative;
+height: 100vh;
+height: 100svh;
+min-height: 600px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+overflow: hidden;
+}
+.hero-left {
+display: -webkit-flex;
+display: flex;
+-webkit-flex-direction: column;
+flex-direction: column;
+-webkit-justify-content: flex-end;
+justify-content: flex-end;
+padding: clamp(80px, 10vw, 120px) clamp(32px, 6vw, 80px) clamp(60px, 8vw, 100px);
+position: relative;
+z-index: 2;
+}
+.hero-tag {
+font-size: 0.65rem;
+font-weight: 400;
+letter-spacing: 0.35em;
+text-transform: uppercase;
+color: #B8965A;
+margin-bottom: 28px;
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+gap: 14px;
+}
+.hero-tag::before {
+content: ‘’;
+width: 32px; height: 1px;
+background: #B8965A;
+}
+.hero-h1 {
+font-family: ‘Cormorant Garamond’, Georgia, serif;
+font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+font-weight: 300;
+line-height: 1.05;
+letter-spacing: -0.01em;
+margin-bottom: 32px;
+color: #F8F5F0;
+}
+.hero-h1 em { font-style: italic; color: #D4B483; }
+.hero-desc {
+font-size: clamp(0.8rem, 1.2vw, 0.92rem);
+font-weight: 300;
+line-height: 1.8;
+color: rgba(248,245,240,0.6);
+max-width: 380px;
+margin-bottom: 52px;
+}
+.hero-actions {
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+gap: 32px;
+-webkit-flex-wrap: wrap;
+flex-wrap: wrap;
+}
+.btn-primary {
+font-family: ‘Jost’, sans-serif;
+font-size: 0.7rem;
+font-weight: 400;
+letter-spacing: 0.22em;
+text-transform: uppercase;
+color: #080808;
+background: #B8965A;
+border: none;
+padding: 16px 36px;
+cursor: none;
+transition: background .3s;
+display: inline-block;
+}
+.btn-primary:hover { background: #D4B483; }
+.btn-ghost {
+font-family: ‘Jost’, sans-serif;
+font-size: 0.7rem;
+font-weight: 400;
+letter-spacing: 0.22em;
+text-transform: uppercase;
+color: rgba(248,245,240,0.65);
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+gap: 10px;
+transition: color .3s;
+cursor: none;
+}
+.btn-ghost::after { content: ‘↗’; font-size: 0.9rem; transition: transform .3s; }
+.btn-ghost:hover { color: #F8F5F0; }
+.btn-ghost:hover::after { transform: translate(3px, -3px); }
+
+.hero-right {
+position: relative;
+overflow: hidden;
+}
+.hero-img-wrap {
+position: absolute;
+top: 0; right: 0; bottom: 0; left: 0;
+background: linear-gradient(135deg, #1a1410 0%, #0d0b09 100%);
+}
+.corset-art {
+position: absolute;
+top: 0; right: 0; bottom: 0; left: 0;
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;
+}
+.corset-art svg { width: 60%; max-width: 280px; opacity: 0.08; }
+.hero-right::before {
+content: ‘’;
+position: absolute;
+top: 15%; left: 10%;
+width: 1px; height: 60%;
+background: linear-gradient(to bottom, transparent, #B8965A, transparent);
+opacity: 0.3;
+z-index: 2;
+}
+.hero-counter {
+position: absolute;
+bottom: 48px; left: 40px;
+z-index: 3;
+display: -webkit-flex;
+display: flex;
+-webkit-flex-direction: column;
+flex-direction: column;
+gap: 20px;
+}
+.counter-num {
+font-family: ‘Cormorant Garamond’, Georgia, serif;
+font-size: 2.4rem;
+font-weight: 300;
+color: #F8F5F0;
+line-height: 1;
+}
+.counter-label {
+font-size: 0.6rem;
+font-weight: 300;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: #B8965A;
+}
+.scroll-line {
+position: absolute;
+bottom: 0; left: 50%;
+transform: translateX(-50%);
+-webkit-transform: translateX(-50%);
+display: -webkit-flex;
+display: flex;
+-webkit-flex-direction: column;
+flex-direction: column;
+-webkit-align-items: center;
+align-items: center;
+gap: 8px;
+color: rgba(248,245,240,0.35);
+font-size: 0.55rem;
+letter-spacing: 0.3em;
+text-transform: uppercase;
+padding-bottom: 28px;
+z-index: 10;
+}
+.scroll-line::before {
+content: ‘’;
+width: 1px; height: 50px;
+background: linear-gradient(to bottom, transparent, rgba(184,150,90,0.5));
+-webkit-animation: scrollPulse 2s infinite;
+animation: scrollPulse 2s infinite;
+}
+
+/* ─── SECTION BASE ─── */
+section { padding: clamp(80px, 12vw, 140px) clamp(24px, 6vw, 80px); position: relative; }
+.section-tag {
+font-size: 0.62rem;
+font-weight: 400;
+letter-spacing: 0.35em;
+text-transform: uppercase;
+color: #B8965A;
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+gap: 14px;
+margin-bottom: 24px;
+}
+.section-tag::before { content: ‘’; width: 28px; height: 1px; background: #B8965A; }
+.section-title {
+font-family: ‘Cormorant Garamond’, Georgia, serif;
+font-size: clamp(2rem, 4vw, 3.8rem);
+font-weight: 300;
+line-height: 1.1;
+margin-bottom: 20px;
+}
+.section-title em { font-style: italic; color: #D4B483; }
+.section-sub {
+font-size: 0.88rem;
+font-weight: 300;
+color: rgba(248,245,240,0.55);
+line-height: 1.8;
+max-width: 480px;
+margin-bottom: 60px;
+}
+
+/* ─── ABOUT ─── */
+#about { background: #F8F5F0; color: #080808; }
+#about .section-tag { color: #B8965A; }
+#about .section-tag::before { background: #B8965A; }
+#about .section-title { color: #080808; }
+#about .section-sub { color: rgba(8,8,8,0.55); }
+.about-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 80px;
+-webkit-align-items: center;
+align-items: center;
+}
+.about-img-block {
+position: relative;
+aspect-ratio: 3/4;
+background: #E8E4DF;
+overflow: hidden;
+}
+.about-img-block::after {
+content: ‘’;
+position: absolute;
+bottom: -20px; right: -20px;
+width: 80%; height: 80%;
+border: 1px solid #B8965A;
+z-index: -1;
+}
+.about-img-placeholder {
+position: absolute;
+top: 0; right: 0; bottom: 0; left: 0;
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;
+background: linear-gradient(135deg, #E0D8CF 0%, #C8BFB5 100%);
+}
+.about-img-placeholder svg { width: 40%; opacity: 0.2; }
+.about-text { display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; gap: 28px; }
+.about-quote {
+font-family: ‘Cormorant Garamond’, Georgia, serif;
+font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+font-weight: 300;
+font-style: italic;
+line-height: 1.45;
+color: #080808;
+border-left: 2px solid #B8965A;
+padding-left: 28px;
+margin: 8px 0 16px;
+}
+.about-p { font-size: 0.88rem; line-height: 1.9; color: rgba(8,8,8,0.65); }
+.about-stats {
+display: -webkit-flex;
+display: flex;
+gap: 48px;
+margin-top: 16px;
+padding-top: 32px;
+border-top: 1px solid rgba(8,8,8,0.1);
+}
+.stat { display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; gap: 4px; }
+.stat-num {
+font-family: ‘Cormorant Garamond’, Georgia, serif;
+font-size: 2.8rem;
+font-weight: 300;
+line-height: 1;
+color: #080808;
+}
+.stat-label { font-size: 0.6rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: #B8965A; }
+
+/* ─── PORTFOLIO ─── */
+#portfolio { background: #0D0B08; }
+.portfolio-header {
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: flex-end;
+align-items: flex-end;
+-webkit-justify-content: space-between;
+justify-content: space-between;
+margin-bottom: 56px;
+-webkit-flex-wrap: wrap;
+flex-wrap: wrap;
+gap: 24px;
+}
+.portfolio-filters { display: -webkit-flex; display: flex; gap: 4px; -webkit-flex-wrap: wrap; flex-wrap: wrap; }
+.filter-btn {
+font-family: ‘Jost’, sans-serif;
+font-size: 0.65rem;
+font-weight: 400;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: rgba(248,245,240,0.45);
+background: none;
+border: 1px solid rgba(248,245,240,0.1);
+padding: 9px 20px;
+cursor: pointer;
+transition: all .3s;
+}
+.filter-btn:hover, .filter-btn.active { color: #080808; background: #B8965A; border-color: #B8965A; }
+.portfolio-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 2px;
+}
+.portfolio-grid .item:nth-child(1) { grid-row: span 2; }
+.portfolio-grid .item:nth-child(4) { grid-column: span 2; }
+.portfolio-item {
+position: relative;
+overflow: hidden;
+aspect-ratio: 3/4;
+background: #1A1610;
+cursor: none;
+}
+.portfolio-grid .item:nth-child(1) .portfolio-item { aspect-ratio: unset; height: 100%; }
+.portfolio-grid .item:nth-child(4) .portfolio-item { aspect-ratio: 16/9; }
+.portfolio-item-bg {
+position: absolute;
+top: 0; right: 0; bottom: 0; left: 0;
+background: linear-gradient(135deg, #1e1a14 0%, #120f0a 100%);
+transition: transform .6s cubic-bezier(.25,.46,.45,.94);
+-webkit-transition: -webkit-transform .6s cubic-bezier(.25,.46,.45,.94);
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;
+}
+.portfolio-item:hover .portfolio-item-bg { transform: scale(1.05); -webkit-transform: scale(1.05); }
+.portfolio-item-bg svg { width: 35%; opacity: 0.06; }
+.portfolio-overlay {
+position: absolute;
+top: 0; right: 0; bottom: 0; left: 0;
+background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 60%);
+display: -webkit-flex;
+display: flex;
+-webkit-flex-direction: column;
+flex-direction: column;
+-webkit-justify-content: flex-end;
+justify-content: flex-end;
+padding: 28px;
+opacity: 0;
+transition: opacity .4s;
+}
+.portfolio-item:hover .portfolio-overlay { opacity: 1; }
+.portfolio-cat { font-size: 0.58rem; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase; color: #B8965A; margin-bottom: 6px; }
+.portfolio-name { font-family: ‘Cormorant Garamond’, Georgia, serif; font-size: 1.3rem; font-weight: 300; font-style: italic; color: #F8F5F0; }
+.portfolio-num {
+position: absolute; top: 20px; right: 20px;
+font-family: ‘Cormorant Garamond’, Georgia, serif;
+font-size: 0.75rem; font-weight: 300;
+color: rgba(184,150,90,0.4); letter-spacing: 0.1em;
+}
+
+/* ─── PROCESS ─── */
+#process {
+background: #080808;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 100px;
+-webkit-align-items: start;
+align-items: start;
+}
+.process-steps { display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; }
+.process-step {
+display: grid;
+grid-template-columns: 64px 1fr;
+gap: 24px;
+padding: 32px 0;
+border-bottom: 1px solid rgba(248,245,240,0.06);
+cursor: none;
+}
+.process-step:first-child { border-top: 1px solid rgba(248,245,240,0.06); }
+.step-num { font-family: ‘Cormorant Garamond’, Georgia, serif; font-size: 0.7rem; font-weight: 300; color: #B8965A; letter-spacing: 0.1em; padding-top: 4px; }
+.step-title { font-family: ‘Cormorant Garamond’, Georgia, serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 10px; color: #F8F5F0; transition: color .3s; }
+.process-step:hover .step-title { color: #D4B483; }
+.step-desc { font-size: 0.82rem; line-height: 1.75; color: rgba(248,245,240,0.45); max-height: 0; overflow: hidden; transition: max-height .4s, opacity .4s; opacity: 0; }
+.process-step:hover .step-desc { max-height: 100px; opacity: 1; }
+.process-visual { position: -webkit-sticky; position: sticky; top: 120px; }
+.process-card {
+background: #100E0A;
+border: 1px solid rgba(184,150,90,0.15);
+padding: 48px 40px;
+position: relative;
+}
+.process-card::before { content: ‘’; position: absolute; top: -1px; left: 40px; width: 60px; height: 2px; background: #B8965A; }
+.process-card-label { font-size: 0.58rem; font-weight: 400; letter-spacing: 0.35em; text-transform: uppercase; color: #B8965A; margin-bottom: 20px; }
+.process-card-title { font-family: ‘Cormorant Garamond’, Georgia, serif; font-size: 1.6rem; font-weight: 300; font-style: italic; margin-bottom: 24px; line-height: 1.3; color: #F8F5F0; }
+.process-card-text { font-size: 0.82rem; line-height: 1.85; color: rgba(248,245,240,0.5); margin-bottom: 36px; }
+.process-detail { display: -webkit-flex; display: flex; -webkit-justify-content: space-between; justify-content: space-between; padding-top: 28px; border-top: 1px solid rgba(248,245,240,0.08); }
+.detail-item { display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; gap: 4px; }
+.detail-val { font-family: ‘Cormorant Garamond’, Georgia, serif; font-size: 1.6rem; font-weight: 300; color: #F8F5F0; }
+.detail-key { font-size: 0.6rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: #9A9187; }
+
+/* ─── TESTIMONIALS ─── */
+#testimonials { background: #F5F1EB; color: #080808; }
+#testimonials .section-tag { color: #B8965A; }
+#testimonials .section-tag::before { background: #B8965A; }
+#testimonials .section-title { color: #080808; }
+.testimonials-track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.testimonial-card {
+background: #F8F5F0;
+padding: 44px 36px;
+position: relative;
+border-bottom: 2px solid transparent;
+transition: border-color .3s;
+cursor: none;
+}
+.testimonial-card:hover { border-bottom-color: #B8965A; }
+.testimonial-card::before {
+content: ‘\201C’;
+font-family: ‘Cormorant Garamond’, Georgia, serif;
+font-size: 6rem; line-height: 1;
+color: rgba(184,150,90,0.12);
+position: absolute; top: 16px; left: 28px;
+font-style: italic;
+}
+.stars { display: -webkit-flex; display: flex; gap: 4px; margin-bottom: 20px; }
+.star {
+width: 10px; height: 10px;
+background: #B8965A;
+-webkit-clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+}
+.testimonial-text { font-family: ‘Cormorant Garamond’, Georgia, serif; font-size: 1.05rem; font-weight: 300; font-style: italic; line-height: 1.7; color: rgba(8,8,8,0.75); margin-bottom: 28px; position: relative; z-index: 1; }
+.testimonial-author { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; gap: 14px; }
+.author-avatar {
+width: 40px; height: 40px; border-radius: 50%;
+background: linear-gradient(135deg, #D4B483, #B8965A);
+display: -webkit-flex; display: flex;
+-webkit-align-items: center; align-items: center;
+-webkit-justify-content: center; justify-content: center;
+font-family: ‘Cormorant Garamond’, Georgia, serif; font-size: 1.1rem; color: #080808;
+-webkit-flex-shrink: 0; flex-shrink: 0;
+}
+.author-name { font-size: 0.8rem; font-weight: 500; color: #080808; }
+.author-city { font-size: 0.65rem; font-weight: 300; color: rgba(8,8,8,0.45); letter-spacing: 0.1em; }
+
+/* ─── CONTACT ─── */
+#contact {
+background: #080808;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 80px;
+-webkit-align-items: center;
+align-items: center;
+}
+.contact-ornament {
+font-family: ‘Cormorant Garamond’, Georgia, serif;
+font-size: clamp(5rem, 12vw, 10rem);
+font-weight: 300;
+font-style: italic;
+line-height: 0.9;
+color: rgba(184,150,90,0.06);
+letter-spacing: -0.03em;
+user-select: none;
+margin-bottom: 40px;
+}
+.contact-info { display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; gap: 24px; }
+.contact-row { display: -webkit-flex; display: flex; -webkit-align-items: flex-start; align-items: flex-start; gap: 20px; }
+.contact-icon {
+width: 40px; height: 40px;
+border: 1px solid rgba(184,150,90,0.25);
+display: -webkit-flex; display: flex;
+-webkit-align-items: center; align-items: center;
+-webkit-justify-content: center; justify-content: center;
+color: #B8965A; font-size: 1rem;
+-webkit-flex-shrink: 0; flex-shrink: 0;
+}
+.contact-row-label { font-size: 0.6rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: #9A9187; margin-bottom: 4px; }
+.contact-row-val { font-size: 0.9rem; color: #F8F5F0; }
+.contact-form { display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; gap: 4px; }
+.form-group {
+display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column;
+border-bottom: 1px solid rgba(248,245,240,0.12);
+margin-bottom: 8px; transition: border-color .3s;
+}
+.form-group:focus-within { border-color: #B8965A; }
+.form-label { font-size: 0.6rem; font-weight: 300; letter-spacing: 0.25em; text-transform: uppercase; color: #9A9187; padding: 16px 0 6px; transition: color .3s; }
+.form-group:focus-within .form-label { color: #B8965A; }
+.form-input, .form-select, .form-textarea {
+background: none; border: none; outline: none;
+color: #F8F5F0; font-family: ‘Jost’, sans-serif;
+font-size: 0.9rem; font-weight: 300; padding: 0 0 14px; width: 100%;
+-webkit-appearance: none; appearance: none; cursor: none;
+}
+.form-textarea { resize: none; height: 80px; }
+.form-select option { background: #080808; color: #F8F5F0; }
+.form-submit {
+font-family: ‘Jost’, sans-serif; font-size: 0.7rem; font-weight: 400;
+letter-spacing: 0.25em; text-transform: uppercase;
+color: #080808; background: #B8965A; border: none;
+padding: 18px 40px; margin-top: 20px; cursor: none;
+transition: background .3s; -webkit-align-self: flex-start; align-self: flex-start;
+}
+.form-submit:hover { background: #D4B483; }
+.form-success { display: none; text-align: center; padding: 40px; }
+.form-success.show { display: block; }
+.form-success-icon { font-family: ‘Cormorant Garamond’, Georgia, serif; font-size: 3rem; color: #B8965A; margin-bottom: 16px; }
+.form-success-title { font-family: ‘Cormorant Garamond’, Georgia, serif; font-size: 1.8rem; font-weight: 300; font-style: italic; margin-bottom: 12px; color: #F8F5F0; }
+.form-success-text { font-size: 0.82rem; color: rgba(248,245,240,0.5); }
+
+/* ─── FOOTER ─── */
+footer {
+background: #050403;
+padding: 60px clamp(24px, 6vw, 80px) 40px;
+border-top: 1px solid rgba(184,150,90,0.1);
+}
+.footer-top { display: -webkit-flex; display: flex; -webkit-justify-content: space-between; justify-content: space-between; -webkit-align-items: flex-start; align-items: flex-start; margin-bottom: 48px; -webkit-flex-wrap: wrap; flex-wrap: wrap; gap: 40px; }
+.footer-logo { font-family: ‘Cormorant Garamond’, Georgia, serif; font-size: 1.5rem; font-weight: 300; font-style: italic; color: #F8F5F0; margin-bottom: 12px; }
+.footer-tagline { font-size: 0.65rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: #9A9187; }
+.footer-nav-group { display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; gap: 16px; }
+.footer-nav-title { font-size: 0.6rem; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase; color: #B8965A; margin-bottom: 4px; }
+.footer-link { font-size: 0.82rem; font-weight: 300; color: rgba(248,245,240,0.45); transition: color .3s; cursor: none; }
+.footer-link:hover { color: #F8F5F0; }
+.footer-bottom { display: -webkit-flex; display: flex; -webkit-justify-content: space-between; justify-content: space-between; -webkit-align-items: center; align-items: center; padding-top: 28px; border-top: 1px solid rgba(248,245,240,0.06); -webkit-flex-wrap: wrap; flex-wrap: wrap; gap: 16px; }
+.footer-copy { font-size: 0.68rem; font-weight: 300; color: rgba(248,245,240,0.25); letter-spacing: 0.05em; }
+.footer-socials { display: -webkit-flex; display: flex; gap: 16px; }
+.social-link {
+width: 34px; height: 34px;
+border: 1px solid rgba(248,245,240,0.1);
+display: -webkit-flex; display: flex;
+-webkit-align-items: center; align-items: center;
+-webkit-justify-content: center; justify-content: center;
+color: rgba(248,245,240,0.4); font-size: 0.75rem;
+transition: all .3s; cursor: none;
+}
+.social-link:hover { border-color: #B8965A; color: #B8965A; }
+
+/* Hero checks */
+.hero-checks {
+display: -webkit-flex;
+display: flex;
+-webkit-flex-direction: column;
+flex-direction: column;
+gap: 8px;
+margin-bottom: 36px;
+}
+.hero-check {
+font-size: 0.82rem;
+font-weight: 300;
+color: rgba(248,245,240,0.7);
+letter-spacing: 0.04em;
+}
+.hero-price-hint {
+margin-top: 16px;
+font-size: 0.72rem;
+font-weight: 300;
+letter-spacing: 0.15em;
+color: rgba(184,150,90,0.7);
+text-transform: uppercase;
+}
+
+/* Pricing */
+.pricing-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 2px;
+}
+.price-card {
+background: #100E0A;
+border: 1px solid rgba(184,150,90,0.12);
+padding: 40px 32px;
+display: -webkit-flex;
+display: flex;
+-webkit-flex-direction: column;
+flex-direction: column;
+gap: 14px;
+position: relative;
+transition: border-color .3s;
+}
+.price-card:hover { border-color: rgba(184,150,90,0.4); }
+.price-card–main {
+border-color: rgba(184,150,90,0.35);
+background: #130F08;
+}
+.price-card-tag {
+position: absolute;
+top: -1px; left: 32px;
+background: #B8965A;
+color: #080808;
+font-size: 0.58rem;
+font-weight: 500;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+padding: 4px 12px;
+}
+.price-card-title {
+font-family: ‘Cormorant Garamond’, Georgia, serif;
+font-size: 1.4rem;
+font-weight: 300;
+font-style: italic;
+color: #F8F5F0;
+margin-top: 8px;
+}
+.price-card-desc {
+font-size: 0.82rem;
+line-height: 1.75;
+color: rgba(248,245,240,0.45);
+-webkit-flex: 1;
+flex: 1;
+}
+.price-card-price {
+font-size: 0.82rem;
+color: rgba(248,245,240,0.5);
+padding-top: 16px;
+border-top: 1px solid rgba(248,245,240,0.07);
+}
+.price-card-price span {
+font-family: ‘Cormorant Garamond’, Georgia, serif;
+font-size: 2rem;
+font-weight: 300;
+color: #B8965A;
+}
+.price-card-meta {
+font-size: 0.68rem;
+color: rgba(248,245,240,0.3);
+letter-spacing: 0.05em;
+}
+.price-card-btn {
+margin-top: 8px;
+text-align: center;
+padding: 13px 24px;
+font-size: 0.65rem;
+}
+
+/* Contact promise */
+.contact-promise {
+margin-top: 32px;
+font-size: 0.9rem;
+line-height: 1.85;
+color: rgba(248,245,240,0.5);
+}
+
+@media (max-width: 768px) {
+.pricing-grid { grid-template-columns: 1fr; }
+.hero-checks { margin-bottom: 28px; }
+}
+@-webkit-keyframes fadeUp {
+from { opacity: 0; -webkit-transform: translateY(28px); transform: translateY(28px); }
+to   { opacity: 1; -webkit-transform: translateY(0);    transform: translateY(0); }
+}
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(28px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+@-webkit-keyframes scrollPulse {
+0%,100% { opacity:.3; } 50% { opacity:.8; }
+}
+@keyframes scrollPulse {
+0%,100% { opacity:.3; } 50% { opacity:.8; }
+}
+
+/* Reveal on scroll */
+.reveal { opacity: 0; transform: translateY(32px); -webkit-transform: translateY(32px); transition: opacity .7s ease, transform .7s ease; -webkit-transition: opacity .7s ease, -webkit-transform .7s ease; }
+.reveal.visible { opacity: 1; transform: none; -webkit-transform: none; }
+.reveal-delay-1 { transition-delay: .1s; -webkit-transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; -webkit-transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; -webkit-transition-delay: .3s; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+#hero { grid-template-columns: 1fr; }
+.hero-right {
+position: absolute;
+top: 0; right: 0; bottom: 0; left: 0;
+opacity: 0.12;
+z-index: 1;
+}
+.hero-left { padding: 100px 40px 80px; z-index: 3; }
+.hero-counter { display: none; }
+.about-grid { grid-template-columns: 1fr; gap: 48px; }
+.about-img-block { aspect-ratio: 4/3; }
+#process { grid-template-columns: 1fr; gap: 60px; }
+.process-visual { position: relative; top: 0; }
+#contact { grid-template-columns: 1fr; }
+.contact-ornament { font-size: 5rem; margin-bottom: 24px; }
+}
+
+@media (max-width: 768px) {
+nav { padding: 20px 24px; }
+nav.scrolled { padding: 16px 24px; }
+.nav-links, .nav-cta { display: none; }
+.burger { display: -webkit-flex; display: flex; }
+
+body { cursor: auto; }
+.cursor, .cursor-ring { display: none; }
+.btn-primary, .btn-ghost, .form-submit, .filter-btn,
+.nav-cta, .nav-links a, .portfolio-item,
+.testimonial-card, .social-link, .footer-link { cursor: pointer; }
+.form-input, .form-select, .form-textarea { cursor: text; }
+
+.hero-left { padding: 88px 24px 56px; }
+.hero-actions {
+gap: 16px;
+-webkit-flex-direction: column;
+flex-direction: column;
+-webkit-align-items: flex-start;
+align-items: flex-start;  /* key: buttons take their natural width, not stretch */
+}
+.scroll-line { display: none; }
+
+/* Hero: drop fixed height on mobile so content is never clipped */
+#hero {
+height: auto;
+min-height: 100vh;
+min-height: 100svh;
+padding-bottom: 56px;
+}
+
+/* Shrink text slightly so everything fits */
+.hero-h1 { font-size: clamp(2rem, 7vw, 2.8rem); margin-bottom: 16px; }
+.hero-desc { font-size: 0.84rem; margin-bottom: 16px; }
+.hero-checks { gap: 6px; margin-bottom: 24px; }
+.hero-check { font-size: 0.78rem; }
+.hero-price-hint { font-size: 0.65rem; margin-top: 10px; }
+
+/* Buttons — inline, not stretched */
+.btn-primary { display: inline-block; width: auto; padding: 14px 28px; }
+.btn-ghost { display: inline-flex; }
+
+section { padding: 64px 24px; }
+
+.portfolio-grid { grid-template-columns: 1fr 1fr; }
+.portfolio-grid .item:nth-child(1) { grid-row: unset; }
+.portfolio-grid .item:nth-child(4) { grid-column: unset; }
+.portfolio-grid .item:nth-child(1) .portfolio-item { height: auto; aspect-ratio: 3/4; }
+.portfolio-grid .item:nth-child(4) .portfolio-item { aspect-ratio: 3/4; }
+/* Always show portfolio info on mobile (no hover) */
+.portfolio-overlay { opacity: 1; }
+
+.testimonials-track { grid-template-columns: 1fr; }
+.about-stats { gap: 28px; }
+.footer-top { -webkit-flex-direction: column; flex-direction: column; }
+.footer-bottom { -webkit-flex-direction: column; flex-direction: column; -webkit-align-items: flex-start; align-items: flex-start; }
+
+#process { padding: 64px 24px; }
+.process-step { grid-template-columns: 40px 1fr; }
+/* Always show step desc on mobile */
+.step-desc { max-height: none; opacity: 1; }
+}
+
+@media (max-width: 480px) {
+.portfolio-grid { grid-template-columns: 1fr; }
+.about-stats { -webkit-flex-wrap: wrap; flex-wrap: wrap; }
+.hero-h1 { font-size: 2.4rem; }
+#contact { padding: 64px 24px; }
+.contact-ornament { display: none; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #080808; }
+::-webkit-scrollbar-thumb { background: rgba(184,150,90,0.4); }
+::selection { background: rgba(184,150,90,0.25); color: #F8F5F0; }
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    Інна Ляховська
+    <span>Корсети · Львів</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">Про мене</a></li>
+    <li><a href="#portfolio">Портфоліо</a></li>
+    <li><a href="#process">Процес</a></li>
+    <li><a href="#contact">Контакти</a></li>
+  </ul>
+  <button class="nav-cta" id="navCta">Замовити</button>
+  <button class="burger" id="burger" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mob-link">Про мене</a>
+  <a href="#portfolio" class="mob-link">Портфоліо</a>
+  <a href="#process" class="mob-link">Процес</a>
+  <a href="#testimonials" class="mob-link">Відгуки</a>
+  <a href="#contact" class="mob-link">Контакти</a>
+</div>
+
+<!-- HERO -->
+
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-tag reveal">Ручна робота · Львів</div>
+    <h1 class="hero-h1 reveal reveal-delay-1">
+      Індивідуальні<br>корсети <em>ручної</em><br>роботи у Львові
+    </h1>
+    <p class="hero-desc reveal reveal-delay-2">
+      Ідеальна посадка під вашу фігуру вже з першої примірки.
+      Створюю корсети для весіль, фотосесій та особливих подій.
+    </p>
+    <div class="hero-checks reveal reveal-delay-2">
+      <div class="hero-check">✔ Преміум матеріали</div>
+      <div class="hero-check">✔ Повністю ручна робота</div>
+      <div class="hero-check">✔ Підбір під ваш стиль і характер</div>
+    </div>
+    <div class="hero-actions reveal reveal-delay-3">
+      <a href="#contact" class="btn-primary">Замовити корсет</a>
+      <a href="#portfolio" class="btn-ghost">Переглянути роботи</a>
+    </div>
+    <div class="hero-price-hint reveal reveal-delay-3">від 4500 грн · 3–4 тижні</div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-wrap">
+      <div class="corset-art">
+        <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220L70 280L100 280L100 220L130 220L150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#B8965A" stroke-width="1.5"/>
+          <path d="M100 20L100 280" stroke="#B8965A" stroke-width="0.5" opacity="0.3"/>
+          <path d="M25 90L175 90" stroke="#B8965A" stroke-width="0.5" opacity="0.2"/>
+          <path d="M22 130L178 130" stroke="#B8965A" stroke-width="0.5" opacity="0.2"/>
+          <path d="M20 160L180 160" stroke="#B8965A" stroke-width="0.5" opacity="0.2"/>
+        </svg>
+      </div>
+    </div>
+    <div class="hero-counter">
+      <div class="counter-item">
+        <span class="counter-num">8+</span>
+        <span class="counter-label">Років досвіду</span>
+      </div>
+      <div class="counter-item">
+        <span class="counter-num">340</span>
+        <span class="counter-label">Виробів</span>
+      </div>
+      <div class="counter-item">
+        <span class="counter-num">98%</span>
+        <span class="counter-label">Задоволених</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-line">Гортай</div>
+</section>
+
+<!-- ABOUT -->
+
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img-block reveal">
+      <div class="about-img-placeholder">
+        <svg viewBox="0 0 100 150" fill="none">
+          <path d="M50 10C30 10 15 25 12 45L10 80C10 90 15 100 25 105L35 110L35 140L50 140L50 110L65 110L75 105C85 100 90 90 90 80L88 45C85 25 70 10 50 10Z" stroke="#8B7355" stroke-width="1"/>
+          <path d="M50 10L50 140" stroke="#8B7355" stroke-width="0.5" opacity="0.4"/>
+        </svg>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="reveal">
+        <div class="section-tag">Про майстра</div>
+        <h2 class="section-title">Інна Ляховська — <em>майстер корсетного пошиву</em></h2>
+      </div>
+      <blockquote class="about-quote reveal reveal-delay-1">
+        «Корсет — це не просто одяг. Це впевненість, яку ви відчуваєте зсередини.»
+      </blockquote>
+      <p class="about-p reveal reveal-delay-2">
+        Я — Інна Ляховська, майстер корсетного пошиву у Львові. Вже понад 8 років
+        я створюю корсети, які підкреслюють фігуру та додають впевненості.
+      </p>
+      <p class="about-p reveal reveal-delay-2">
+        Кожен виріб — це індивідуальна робота: від ідеї до фінальної примірки
+        я працюю разом з вами, щоб результат був ідеальним. Використовую
+        виключно преміум матеріали — шовк, атлас, французьке мереживо.
+      </p>
+      <div class="about-stats reveal reveal-delay-3">
+        <div class="stat"><span class="stat-num">340+</span><span class="stat-label">Виробів</span></div>
+        <div class="stat"><span class="stat-num">8</span><span class="stat-label">Років</span></div>
+        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Ручна робота</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+
+<section id="portfolio">
+  <div class="portfolio-header">
+    <div>
+      <div class="section-tag reveal">Роботи</div>
+      <h2 class="section-title reveal reveal-delay-1">Кожна робота — <em>окрема історія</em></h2>
+    </div>
+    <div class="portfolio-filters reveal reveal-delay-2">
+      <button class="filter-btn active" data-filter="all">Всі</button>
+      <button class="filter-btn" data-filter="wedding">Весільні</button>
+      <button class="filter-btn" data-filter="evening">Вечірні</button>
+      <button class="filter-btn" data-filter="casual">Casual</button>
+    </div>
+  </div>
+  <div class="portfolio-grid">
+    <div class="item" data-cat="wedding">
+      <div class="portfolio-item">
+        <div class="portfolio-item-bg" style="background:linear-gradient(135deg,#1a1410,#0d0b09)">
+          <svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#B8965A" stroke-width="1"/></svg>
+        </div>
+        <div class="portfolio-num">01</div>
+        <div class="portfolio-overlay"><div class="portfolio-cat">Весільний</div><div class="portfolio-name">Класика у білому</div></div>
+      </div>
+    </div>
+    <div class="item" data-cat="evening">
+      <div class="portfolio-item">
+        <div class="portfolio-item-bg" style="background:linear-gradient(135deg,#1a1016,#110d14)">
+          <svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#9B7FBF" stroke-width="1"/></svg>
+        </div>
+        <div class="portfolio-num">02</div>
+        <div class="portfolio-overlay"><div class="portfolio-cat">Вечірній</div><div class="portfolio-name">Ніч в Парижі</div></div>
+      </div>
+    </div>
+    <div class="item" data-cat="casual">
+      <div class="portfolio-item">
+        <div class="portfolio-item-bg" style="background:linear-gradient(135deg,#141a14,#0d1410)">
+          <svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#7A9B7A" stroke-width="1"/></svg>
+        </div>
+        <div class="portfolio-num">03</div>
+        <div class="portfolio-overlay"><div class="portfolio-cat">Casual</div><div class="portfolio-name">Лісова відьма</div></div>
+      </div>
+    </div>
+    <div class="item" data-cat="evening">
+      <div class="portfolio-item">
+        <div class="portfolio-item-bg" style="background:linear-gradient(135deg,#1a1510,#120f08)">
+          <svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#D4B483" stroke-width="1.2"/></svg>
+        </div>
+        <div class="portfolio-num">04</div>
+        <div class="portfolio-overlay"><div class="portfolio-cat">Вечірній</div><div class="portfolio-name">Золота богиня</div></div>
+      </div>
+    </div>
+    <div class="item" data-cat="wedding">
+      <div class="portfolio-item">
+        <div class="portfolio-item-bg" style="background:linear-gradient(135deg,#18151a,#110e13)">
+          <svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#E8C8D8" stroke-width="1"/></svg>
+        </div>
+        <div class="portfolio-num">05</div>
+        <div class="portfolio-overlay"><div class="portfolio-cat">Весільний</div><div class="portfolio-name">Рожевий блиск</div></div>
+      </div>
+    </div>
+    <div class="item" data-cat="casual">
+      <div class="portfolio-item">
+        <div class="portfolio-item-bg" style="background:linear-gradient(135deg,#1a1618,#130f11)">
+          <svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#C8A0A8" stroke-width="1"/></svg>
+        </div>
+        <div class="portfolio-num">06</div>
+        <div class="portfolio-overlay"><div class="portfolio-cat">Casual</div><div class="portfolio-name">Міська романтика</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+
+<section id="process">
+  <div>
+    <div class="section-tag reveal">Як це відбувається</div>
+    <h2 class="section-title reveal reveal-delay-1">Від ідеї до <em>ідеального корсету</em></h2>
+    <p class="section-sub reveal reveal-delay-2">Кожен крок продуманий так, щоб результат перевершив ваші очікування.</p>
+    <div class="process-steps">
+      <div class="process-step reveal"><div class="step-num">01</div><div><div class="step-title">Консультація та ескіз</div><div class="step-desc">Обговорюємо задум, стиль, привід. Роблю ескіз та затверджуємо концепцію разом.</div></div></div>
+      <div class="process-step reveal reveal-delay-1"><div class="step-num">02</div><div><div class="step-title">Зняття мірок</div><div class="step-desc">Особиста зустріч у Львові або онлайн з детальним гайдом по самостійному зніманню.</div></div></div>
+      <div class="process-step reveal reveal-delay-2"><div class="step-num">03</div><div><div class="step-title">Підбір матеріалів</div><div class="step-desc">Разом обираємо тканину, фурнітуру та шнурівку. Тільки преміум матеріали.</div></div></div>
+      <div class="process-step reveal"><div class="step-num">04</div><div><div class="step-title">Пошив та примірки</div><div class="step-desc">Від 2 до 4 примірок залежно від складності. Кожен стібок — вручну.</div></div></div>
+      <div class="process-step reveal reveal-delay-1"><div class="step-num">05</div><div><div class="step-title">Передача виробу</div><div class="step-desc">Упаковка у фірмову коробку та доставка.</div></div></div>
+    </div>
+  </div>
+  <div class="process-visual">
+    <div class="process-card reveal reveal-delay-2">
+      <div class="process-card-label">Ваш проєкт</div>
+      <div class="process-card-title">«Кастомний весільний корсет з мереживом»</div>
+      <div class="process-card-text">Унікальний виріб, створений спеціально для вашого образу. Шовк + французьке мереживо. Шнурівка ручної роботи.</div>
+      <div class="process-detail">
+        <div class="detail-item"><div class="detail-val">3–4</div><div class="detail-key">Тижні</div></div>
+        <div class="detail-item"><div class="detail-val">4</div><div class="detail-key">Примірки</div></div>
+        <div class="detail-item"><div class="detail-val">від 4500</div><div class="detail-key">Гривень</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+
+<section id="testimonials">
+  <div class="section-tag reveal">Відгуки</div>
+  <h2 class="section-title reveal reveal-delay-1" style="color:#080808">Що кажуть <em>клієнтки</em></h2>
+  <p style="font-size:.85rem;color:rgba(8,8,8,.5);margin-bottom:48px;" class="reveal reveal-delay-2">Понад 340 щасливих клієнток по всій Україні та за кордоном</p>
+  <div class="testimonials-track">
+    <div class="testimonial-card reveal">
+      <div class="stars"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
+      <div class="testimonial-text">«Ольга зробила неможливе — корсет сидить ідеально, хоча в мене нестандартна фігура. Весілля пройшло чудово, всі питали де я взяла таку красу.»</div>
+      <div class="testimonial-author"><div class="author-avatar">М</div><div><div class="author-name">Марія Коваль</div><div class="author-city">Львів · Весільний корсет</div></div></div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-1">
+      <div class="stars"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
+      <div class="testimonial-text">«Замовляла вечірній корсет на корпоратив. Ольга — справжній професіонал. Дуже уважна до деталей і завжди на зв'язку. Буду замовляти ще!»</div>
+      <div class="testimonial-author"><div class="author-avatar">А</div><div><div class="author-name">Аліна Шевченко</div><div class="author-city">Київ · Вечірній корсет</div></div></div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-2">
+      <div class="stars"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
+      <div class="testimonial-text">«Casual корсет для фотосесії — мрія! Матеріали відчуваються преміально, посадка бездоганна. Дякую за терплячість і увагу.»</div>
+      <div class="testimonial-author"><div class="author-avatar">С</div><div><div class="author-name">Соломія Іваненко</div><div class="author-city">Львів · Casual корсет</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+
+<section id="pricing" style="background:#0D0B08; padding:clamp(80px,12vw,140px) clamp(24px,6vw,80px);">
+  <div class="section-tag reveal">Вартість</div>
+  <h2 class="section-title reveal reveal-delay-1">Скільки <em>коштує?</em></h2>
+  <p class="section-sub reveal reveal-delay-2">Фінальна ціна залежить від складності дизайну та матеріалів — напишіть мені, і я підберу варіант саме під вас.</p>
+  <div class="pricing-grid reveal reveal-delay-2">
+    <div class="price-card price-card--main">
+      <div class="price-card-tag">Найпопулярніше</div>
+      <div class="price-card-title">Кастомний корсет</div>
+      <div class="price-card-desc">Повністю індивідуальний пошив під вашу фігуру. Будь-яка складність, будь-який стиль.</div>
+      <div class="price-card-price">від <span>4 500</span> грн</div>
+      <div class="price-card-meta">⏱ 3–4 тижні · 2–4 примірки</div>
+      <a href="#contact" class="btn-primary price-card-btn">Замовити</a>
+    </div>
+    <div class="price-card">
+      <div class="price-card-title">Ремонт / корекція</div>
+      <div class="price-card-desc">Підгонка, відновлення, заміна шнурівки або фурнітури.</div>
+      <div class="price-card-price">від <span>500</span> грн</div>
+      <div class="price-card-meta">⏱ 3–7 днів</div>
+      <a href="#contact" class="btn-primary price-card-btn">Замовити</a>
+    </div>
+    <div class="price-card">
+      <div class="price-card-title">Консультація</div>
+      <div class="price-card-desc">60 хвилин онлайн або офлайн. Підбір стилю, матеріалів, обговорення ескізу.</div>
+      <div class="price-card-price"><span>300</span> грн</div>
+      <div class="price-card-meta">⏱ 60 хвилин</div>
+      <a href="#contact" class="btn-primary price-card-btn">Записатись</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+
+<section id="contact">
+  <div>
+    <div class="contact-ornament">Хочете<br>корсет?</div>
+    <div class="contact-info reveal">
+      <div class="contact-row"><div class="contact-icon">📍</div><div><div class="contact-row-label">Адреса</div><div class="contact-row-val">Львів, Галицький район</div></div></div>
+      <div class="contact-row"><div class="contact-icon">📞</div><div><div class="contact-row-label">Телефон / Telegram</div><div class="contact-row-val"><a href="tel:+380501234567" style="color:inherit">+38 (050) 123 45 67</a></div></div></div>
+      <div class="contact-row"><div class="contact-icon">📸</div><div><div class="contact-row-label">Instagram</div><div class="contact-row-val"><a href="https://instagram.com/inna.corset.lviv" target="_blank" style="color:inherit">@inna.corset.lviv</a></div></div></div>
+    </div>
+    <div class="contact-promise reveal reveal-delay-1">
+      Залиште заявку — я зв'яжусь з вами<br>протягом <strong style="color:#B8965A">2 годин</strong> та допоможу<br>створити ваш ідеальний образ.
+    </div>
+  </div>
+  <div class="reveal reveal-delay-1">
+    <form class="contact-form" id="contactForm">
+      <div class="form-group"><label class="form-label">Ваше ім'я</label><input type="text" class="form-input" placeholder="Наприклад, Марія" required></div>
+      <div class="form-group"><label class="form-label">Телефон або Telegram</label><input type="tel" class="form-input" placeholder="+38 (0__) ___ __ __" required></div>
+      <div class="form-group"><label class="form-label">Тип послуги</label>
+        <select class="form-select form-input"><option value="">Оберіть послугу...</option><option>Кастомний корсет (від 4500 грн)</option><option>Ремонт / корекція (від 500 грн)</option><option>Консультація (300 грн)</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Розкажіть про ваш задум</label><textarea class="form-textarea form-input" placeholder="Привід, стиль, терміни, побажання..."></textarea></div>
+      <button type="submit" class="form-submit">Надіслати заявку →</button>
+    </form>
+    <div class="form-success" id="formSuccess">
+      <div class="form-success-icon">✦</div>
+      <div class="form-success-title">Заявку отримано!</div>
+      <div class="form-success-text">Інна зв'яжеться з вами протягом 2 годин.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-top">
+    <div><div class="footer-logo">Інна Ляховська</div><div class="footer-tagline">Корсети ручної роботи · Львів</div></div>
+    <div class="footer-nav-group"><div class="footer-nav-title">Сторінки</div><a href="#about" class="footer-link">Про мене</a><a href="#portfolio" class="footer-link">Портфоліо</a><a href="#process" class="footer-link">Процес</a><a href="#contact" class="footer-link">Контакти</a></div>
+    <div class="footer-nav-group"><div class="footer-nav-title">Послуги</div><a href="#" class="footer-link">Кастомний корсет</a><a href="#" class="footer-link">Ремонт та корекція</a><a href="#" class="footer-link">Консультація</a></div>
+    <div class="footer-nav-group"><div class="footer-nav-title">Контакти</div><a href="tel:+380501234567" class="footer-link">+38 (050) 123 45 67</a><a href="#" class="footer-link">Telegram</a><a href="#" class="footer-link">Instagram</a></div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Інна Ляховська · Пошив корсетів у Львові · Всі права захищені</div>
+    <div class="footer-socials"><a href="#" class="social-link">Tg</a><a href="#" class="social-link">Ig</a><a href="#" class="social-link">Fb</a></div>
+  </div>
+</footer>
+
+<canvas id="threadCanvas"></canvas>
+
+<div class="cursor-needle" id="cursorNeedle">
+  <!--
+    Needle: 16×72px viewBox, center=8
+    Tip: sharp point at top (y=0)
+    Body: thin ~3px wide shaft
+    Eye: real hole (cutout) near bottom
+    Blunt end at bottom
+  -->
+  <svg width="16" height="72" viewBox="0 0 16 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ng" x1="0" y1="0" x2="16" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0%"   stop-color="#9A7030"/>
+        <stop offset="28%"  stop-color="#F2E0A0"/>
+        <stop offset="55%"  stop-color="#C8A050"/>
+        <stop offset="100%" stop-color="#7A5820"/>
+      </linearGradient>
+      <!-- Mask to punch the eye hole through the body -->
+      <mask id="eyeMask">
+        <rect width="16" height="72" fill="white"/>
+        <!-- Eye hole cutout -->
+        <ellipse cx="8" cy="60" rx="2.2" ry="3.4" fill="black"/>
+      </mask>
+    </defs>
+
+```
+<!-- Main needle body with eye hole punched out via mask -->
+<path
+  d="M8 0
+     C8.6 2 9.5 5 9.5 10
+     L9.5 55
+     C9.5 57 9 58 8 58
+     C7 58 6.5 57 6.5 55
+     L6.5 10
+     C6.5 5 7.4 2 8 0 Z"
+  fill="url(#ng)"
+  mask="url(#eyeMask)"
+/>
+
+<!-- Blunt end cap (bottom) -->
+<rect x="6.5" y="58" width="3" height="8" rx="1.5"
+      fill="url(#ng)" mask="url(#eyeMask)"/>
+
+<!-- Eye outline — visible gold ring around the hole -->
+<ellipse class="needle-eye"
+  cx="8" cy="60"
+  rx="2.8" ry="4"
+  fill="none"
+  stroke="#B8965A"
+  stroke-width="0.9"
+/>
+
+<!-- Subtle shine on left side of shaft -->
+<line x1="7" y1="8" x2="7" y2="52"
+      stroke="rgba(255,248,210,0.35)"
+      stroke-width="0.6"
+      stroke-linecap="round"/>
+
+<!-- Very sharp tip highlight -->
+<ellipse cx="8" cy="1.2" rx="0.6" ry="1.2"
+         fill="rgba(255,252,230,0.9)"/>
+```
+
+  </svg>
+</div>
+
+<script>
+(function () {
+
+  /* ── Needle cursor ── */
+  var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  var needleEl = document.getElementById('cursorNeedle');
+  var canvas   = document.getElementById('threadCanvas');
+
+  if (isTouch) {
+    needleEl.style.display = 'none';
+    canvas.style.display   = 'none';
+    document.body.style.cursor = 'auto';
+    document.querySelectorAll('a,button,input,select,textarea').forEach(function(el){ el.style.cursor='auto'; });
+  } else {
+    needleEl.style.opacity = '0';
+
+    var mx = 0, my = 0, pmx = 0, pmy = 0;
+    var angle = 0;
+    var POINTS = 26;
+    var pts = [];
+    for (var i = 0; i < POINTS; i++) pts.push({ x: -200, y: -200 });
+
+    var ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+
+    var started = false;
+    var targetAngle = 0;  // raw angle from mouse movement
+    var smoothAngle = 0;  // smoothed angle — no jitter
+
+    document.addEventListener('mousemove', function (e) {
+      pmx = mx; pmy = my;
+      mx = e.clientX; my = e.clientY;
+
+      if (!started) {
+        started = true;
+        needleEl.style.opacity = '1';
+        for (var i = 0; i < POINTS; i++) { pts[i].x = mx; pts[i].y = my; }
+      }
+
+      var dx = mx - pmx, dy = my - pmy;
+      // Only update angle if mouse moved enough — kills micro-jitter
+      if (dx*dx + dy*dy > 9) {
+        targetAngle = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+      }
+    });
+
+    (function loop() {
+      // Smooth angle interpolation — eases towards target, no sudden jumps
+      var da = targetAngle - smoothAngle;
+      // Wrap angle delta to [-180, 180] so needle doesn't spin 340deg the wrong way
+      if (da > 180)  da -= 360;
+      if (da < -180) da += 360;
+      smoothAngle += da * 0.12;  // 0.12 = nice lag, raise for faster response
+
+      // Position: tip of needle (SVG top center = cx=8, cy=0) must sit exactly on mx,my
+      // SVG is 16×72, transform-origin default = top-left
+      // We rotate around the tip point:
+      //   translate so tip lands on mouse → tip is at (8, 0) in SVG → offset (-8px, 0px)
+      needleEl.style.left      = mx + 'px';
+      needleEl.style.top       = my + 'px';
+      needleEl.style.transform = 'translate(-8px, 0px) rotate(' + smoothAngle + 'deg)';
+      // Note: rotation happens around top-left of element (0,0),
+      // but we want rotation around the tip which is at (8,0) in SVG space.
+      // Correct approach: use transform-origin on the element.
+      needleEl.style.transformOrigin = '8px 0px';
+
+      /* Eye position: rotate vector (0, 64) by smoothAngle around tip */
+      var r = smoothAngle * Math.PI / 180;
+      var EYE_Y = 64; // px down from tip to eye center
+      var ex = mx + (0   * Math.cos(r) - EYE_Y * Math.sin(r));
+      var ey = my + (0   * Math.sin(r) + EYE_Y * Math.cos(r));
+
+      // Spring chain: pt[0] chases eye, rest chase each other
+      pts[0].x += (ex - pts[0].x) * 0.4;
+      pts[0].y += (ey - pts[0].y) * 0.4;
+      for (var i = 1; i < POINTS; i++) {
+        var f = Math.max(0.28 - i * 0.007, 0.05);
+        pts[i].x += (pts[i-1].x - pts[i].x) * f;
+        pts[i].y += (pts[i-1].y - pts[i].y) * f;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (started) {
+        var g = ctx.createLinearGradient(pts[0].x, pts[0].y, pts[POINTS-1].x, pts[POINTS-1].y);
+        g.addColorStop(0,    'rgba(184,150,90,0.92)');
+        g.addColorStop(0.25, 'rgba(220,185,120,0.7)');
+        g.addColorStop(0.6,  'rgba(184,150,90,0.3)');
+        g.addColorStop(1,    'rgba(184,150,90,0)');
+
+        ctx.beginPath();
+        ctx.moveTo(pts[0].x, pts[0].y);
+        for (var j = 1; j < POINTS - 2; j++) {
+          ctx.quadraticCurveTo(pts[j].x, pts[j].y, (pts[j].x+pts[j+1].x)/2, (pts[j].y+pts[j+1].y)/2);
+        }
+        ctx.lineTo(pts[POINTS-1].x, pts[POINTS-1].y);
+        ctx.strokeStyle = g;
+        ctx.lineWidth = 1.4;
+        ctx.lineCap = ctx.lineJoin = 'round';
+        ctx.stroke();
+
+        /* tail knot */
+        ctx.beginPath();
+        ctx.arc(pts[POINTS-1].x, pts[POINTS-1].y, 1.8, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(184,150,90,0.4)';
+        ctx.fill();
+      }
+      requestAnimationFrame(loop);
+    })();
+
+    document.querySelectorAll('a, button').forEach(function (el) {
+      el.addEventListener('mouseenter', function () { needleEl.classList.add('hovering'); });
+      el.addEventListener('mouseleave', function () { needleEl.classList.remove('hovering'); });
+    });
+  }
+
+  /* ── Smooth scroll ── */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    e.preventDefault();
+    var t = document.getElementById(id);
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    closeMob();
+  });
+  document.getElementById('navCta').addEventListener('click', function () {
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  /* ── Navbar ── */
+  var navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', function () {
+    navbar.classList.toggle('scrolled', window.pageYOffset > 60);
+  }, { passive: true });
+
+  /* ── Burger ── */
+  var burger  = document.getElementById('burger');
+  var mobMenu = document.getElementById('mobileMenu');
+  function closeMob() {
+    burger.classList.remove('open');
+    mobMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  burger.addEventListener('click', function () {
+    if (mobMenu.classList.contains('open')) { closeMob(); }
+    else { burger.classList.add('open'); mobMenu.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  });
+  document.querySelectorAll('.mob-link').forEach(function (el) { el.addEventListener('click', closeMob); });
+
+  /* ── Scroll reveal ── */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('visible'); });
+  }
+
+  /* ── Portfolio filter ── */
+  document.querySelectorAll('.filter-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var f = btn.getAttribute('data-filter');
+      document.querySelectorAll('.portfolio-grid .item').forEach(function (item) {
+        item.style.display = (f === 'all' || item.getAttribute('data-cat') === f) ? '' : 'none';
+      });
+    });
+  });
+
+  /* ── Form ── */
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    this.style.display = 'none';
+    document.getElementById('formSuccess').classList.add('show');
+  });
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вхід — Адмін | Інна Ляховська</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="login-page">
+
+<div class="login-wrap">
+  <div class="login-logo">
+    <div class="login-logo-name">Інна Ляховська</div>
+    <div class="login-logo-sub">Панель керування</div>
+  </div>
+
+  <form class="login-form" id="loginForm" novalidate>
+    <div class="adm-form-group">
+      <label class="adm-label">Логін</label>
+      <input class="adm-input" id="loginField" type="text" autocomplete="username" placeholder="admin">
+    </div>
+    <div class="adm-form-group">
+      <label class="adm-label">Пароль</label>
+      <input class="adm-input" id="passwordField" type="password" autocomplete="current-password" placeholder="••••••••">
+    </div>
+    <div class="login-error" id="loginError"></div>
+    <button class="adm-btn-primary login-btn" type="submit">Увійти</button>
+  </form>
+</div>
+
+<script>
+(function () {
+  // Якщо вже є токен — редирект
+  if (localStorage.getItem('adminToken')) {
+    window.location.href = '/admin/';
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var login    = document.getElementById('loginField').value.trim();
+    var password = document.getElementById('passwordField').value;
+    var errEl    = document.getElementById('loginError');
+    var btn      = this.querySelector('button');
+
+    errEl.textContent = '';
+    btn.disabled = true;
+    btn.textContent = 'Вхід...';
+
+    fetch('/api/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ login: login, password: password })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (data.token) {
+        localStorage.setItem('adminToken', data.token);
+        window.location.href = '/admin/';
+      } else {
+        errEl.textContent = data.error || 'Невірний логін або пароль';
+        btn.disabled = false;
+        btn.textContent = 'Увійти';
+      }
+    })
+    .catch(function () {
+      errEl.textContent = 'Помилка з\'єднання. Спробуйте ще раз.';
+      btn.disabled = false;
+      btn.textContent = 'Увійти';
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,20 +1,22 @@
-const express = require('express');
-const router = express.Router();
-const multer = require('multer');
-const cloudinary = require('cloudinary').v2;
-const auth = require('../middleware/auth');
+const express  = require('express');
+const router   = express.Router();
+const multer   = require('multer');
+const sharp    = require('sharp');
+const path     = require('path');
+const fs       = require('fs');
+const { v4: uuidv4 } = require('uuid');
+const auth     = require('../middleware/auth');
 
-// Multer — зберігаємо в пам'яті перед Cloudinary
-const storage = multer.memoryStorage();
+const UPLOAD_DIR = path.join(__dirname, '../public/uploads');
+if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+
+// Multer — memory storage, конвертуємо через sharp
 const upload = multer({
-  storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20 MB
   fileFilter(req, file, cb) {
-    if (file.mimetype.startsWith('image/')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Тільки зображення дозволені'));
-    }
+    if (file.mimetype.startsWith('image/')) return cb(null, true);
+    cb(new Error('Тільки зображення дозволені'));
   }
 });
 
@@ -26,22 +28,26 @@ router.post('/', auth, upload.array('photos', 10), async (req, res) => {
 
   try {
     const urls = await Promise.all(
-      req.files.map(file => {
-        return new Promise((resolve, reject) => {
-          const stream = cloudinary.uploader.upload_stream(
-            { folder: 'corset-master', resource_type: 'image' },
-            (error, result) => {
-              if (error) return reject(error);
-              resolve(result.secure_url);
-            }
-          );
-          stream.end(file.buffer);
-        });
+      req.files.map(async (file) => {
+        const filename = uuidv4() + '.webp';
+        const filepath = path.join(UPLOAD_DIR, filename);
+
+        await sharp(file.buffer)
+          .rotate()               // авто-орієнтація за EXIF
+          .resize(1200, 1600, {   // макс розмір, зберігає пропорції
+            fit: 'inside',
+            withoutEnlargement: true
+          })
+          .webp({ quality: 85 }) // конвертуємо в WebP, якість 85%
+          .toFile(filepath);
+
+        return '/uploads/' + filename;
       })
     );
+
     res.json({ urls });
   } catch (err) {
-    res.status(500).json({ error: 'Помилка завантаження: ' + err.message });
+    res.status(500).json({ error: 'Помилка обробки: ' + err.message });
   }
 });
 

@@ -7,7 +7,7 @@ function authMiddleware(req, res, next) {
   }
   const token = authHeader.slice(7);
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, process.env.JWT_SECRET || 'fallback_dev_secret_inna2025');
     req.admin = payload;
     next();
   } catch {

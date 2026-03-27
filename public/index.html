@@ -381,45 +381,11 @@
         <ellipse cx="8" cy="60" rx="2.2" ry="3.4" fill="black"/>
       </mask>
     </defs>
-
-```
-<!-- Main needle body with eye hole punched out via mask -->
-<path
-  d="M8 0
-     C8.6 2 9.5 5 9.5 10
-     L9.5 55
-     C9.5 57 9 58 8 58
-     C7 58 6.5 57 6.5 55
-     L6.5 10
-     C6.5 5 7.4 2 8 0 Z"
-  fill="url(#ng)"
-  mask="url(#eyeMask)"
-/>
-
-<!-- Blunt end cap (bottom) -->
-<rect x="6.5" y="58" width="3" height="8" rx="1.5"
-      fill="url(#ng)" mask="url(#eyeMask)"/>
-
-<!-- Eye outline — visible gold ring around the hole -->
-<ellipse class="needle-eye"
-  cx="8" cy="60"
-  rx="2.8" ry="4"
-  fill="none"
-  stroke="#B8965A"
-  stroke-width="0.9"
-/>
-
-<!-- Subtle shine on left side of shaft -->
-<line x1="7" y1="8" x2="7" y2="52"
-      stroke="rgba(255,248,210,0.35)"
-      stroke-width="0.6"
-      stroke-linecap="round"/>
-
-<!-- Very sharp tip highlight -->
-<ellipse cx="8" cy="1.2" rx="0.6" ry="1.2"
-         fill="rgba(255,252,230,0.9)"/>
-```
-
+    <path d="M8 0 C8.6 2 9.5 5 9.5 10 L9.5 55 C9.5 57 9 58 8 58 C7 58 6.5 57 6.5 55 L6.5 10 C6.5 5 7.4 2 8 0 Z" fill="url(#ng)" mask="url(#eyeMask)"/>
+    <rect x="6.5" y="58" width="3" height="8" rx="1.5" fill="url(#ng)" mask="url(#eyeMask)"/>
+    <ellipse class="needle-eye" cx="8" cy="60" rx="2.8" ry="4" fill="none" stroke="#B8965A" stroke-width="0.9"/>
+    <line x1="7" y1="8" x2="7" y2="52" stroke="rgba(255,248,210,0.35)" stroke-width="0.6" stroke-linecap="round"/>
+    <ellipse cx="8" cy="1.2" rx="0.6" ry="1.2" fill="rgba(255,252,230,0.9)"/>
   </svg>
 </div>
 

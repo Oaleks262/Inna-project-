@@ -5,7 +5,9 @@
   var needleEl = document.getElementById('cursorNeedle');
   var canvas   = document.getElementById('threadCanvas');
 
-  if (isTouch) {
+  if (!needleEl || !canvas) {
+    // Page has no needle cursor elements — skip
+  } else if (isTouch) {
     needleEl.style.display = 'none';
     canvas.style.display   = 'none';
     document.body.style.cursor = 'auto';

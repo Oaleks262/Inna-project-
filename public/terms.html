@@ -185,6 +185,27 @@
   </p>
 </div>
 
+<canvas id="threadCanvas"></canvas>
+<div class="cursor-needle" id="cursorNeedle">
+  <svg width="16" height="72" viewBox="0 0 16 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ng" x1="0" y1="0" x2="16" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#9A7030"/><stop offset="28%" stop-color="#F2E0A0"/>
+        <stop offset="55%" stop-color="#C8A050"/><stop offset="100%" stop-color="#7A5820"/>
+      </linearGradient>
+      <mask id="eyeMask">
+        <rect width="16" height="72" fill="white"/>
+        <ellipse cx="8" cy="60" rx="2.2" ry="3.4" fill="black"/>
+      </mask>
+    </defs>
+    <path d="M8 0 C8.6 2 9.5 5 9.5 10 L9.5 55 C9.5 57 9 58 8 58 C7 58 6.5 57 6.5 55 L6.5 10 C6.5 5 7.4 2 8 0 Z" fill="url(#ng)" mask="url(#eyeMask)"/>
+    <rect x="6.5" y="58" width="3" height="8" rx="1.5" fill="url(#ng)" mask="url(#eyeMask)"/>
+    <ellipse class="needle-eye" cx="8" cy="60" rx="2.8" ry="4" fill="none" stroke="#B8965A" stroke-width="0.9"/>
+    <line x1="7" y1="8" x2="7" y2="52" stroke="rgba(255,248,210,0.35)" stroke-width="0.6" stroke-linecap="round"/>
+    <ellipse cx="8" cy="1.2" rx="0.6" ry="1.2" fill="rgba(255,252,230,0.9)"/>
+  </svg>
+</div>
+
 <script src="/js/main.js"></script>
 </body>
 </html>

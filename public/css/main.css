@@ -27,6 +27,12 @@ cursor: none;
 /* iOS Safari — reset link color globally */
 a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
 
+/* ── Hide default cursor on all interactive elements (desktop) ── */
+a, button, label, select, input, textarea,
+[role="button"], [tabindex], summary {
+  cursor: none;
+}
+
 /* ── NEEDLE CURSOR ── */
 .cursor-needle {
 position: fixed;

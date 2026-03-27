@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Сторінку не знайдено | Інна Ляховська</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
+<style>
+  .not-found {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    background: var(--bg);
+  }
+  .nf-code {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(80px, 18vw, 180px);
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    margin-bottom: 0;
+  }
+  .nf-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 4vw, 32px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    margin: 16px 0 12px;
+    letter-spacing: 0.04em;
+  }
+  .nf-sub {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(248,245,240,0.45);
+    letter-spacing: 0.12em;
+    margin-bottom: 48px;
+  }
+  .nf-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .nf-btn {
+    display: inline-block;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 32px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    background: transparent;
+    transition: background 0.3s, color 0.3s;
+    cursor: pointer;
+  }
+  .nf-btn:hover {
+    background: var(--gold);
+    color: var(--bg);
+  }
+  .nf-btn-solid {
+    background: var(--gold);
+    color: var(--bg);
+  }
+  .nf-btn-solid:hover {
+    background: transparent;
+    color: var(--gold);
+  }
+  .nf-needle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    color: rgba(184,150,90,0.2);
+    margin-bottom: 24px;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div class="not-found">
+  <span class="nf-needle">✦</span>
+  <div class="nf-code">404</div>
+  <div class="nf-title">Сторінку не знайдено</div>
+  <div class="nf-sub">Схоже, ця нитка обірвалась...</div>
+  <div class="nf-actions">
+    <a href="/" class="nf-btn nf-btn-solid">На головну</a>
+    <a href="/portfolio" class="nf-btn">Переглянути роботи</a>
+  </div>
+</div>
+
+</body>
+</html>

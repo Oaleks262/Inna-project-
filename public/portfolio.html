@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Портфоліо — Всі роботи | Інна Ляховська · Корсети Львів</title>
+<meta name="description" content="Галерея корсетів ручної роботи Інни Ляховської. Весільні, вечірні, casual — понад 340 робіт. Індивідуальний пошив у Львові.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/portfolio.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="/" class="nav-logo">
+    Інна Ляховська
+    <span>Корсети · Львів</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/#about">Про мене</a></li>
+    <li><a href="/portfolio.html" class="nav-active">Портфоліо</a></li>
+    <li><a href="/#process">Процес</a></li>
+    <li><a href="/#contact">Контакти</a></li>
+  </ul>
+  <button class="nav-cta" id="navCta">Замовити</button>
+  <button class="burger" id="burger" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/#about" class="mob-link">Про мене</a>
+  <a href="/portfolio.html" class="mob-link">Портфоліо</a>
+  <a href="/#process" class="mob-link">Процес</a>
+  <a href="/#contact" class="mob-link">Контакти</a>
+</div>
+
+<!-- PORTFOLIO HEADER -->
+<section id="portfolio-hero">
+  <div class="ptf-hero-inner">
+    <div class="section-tag reveal">Портфоліо</div>
+    <h1 class="section-title reveal reveal-delay-1">Всі роботи <em>Інни Ляховської</em></h1>
+    <p class="section-sub reveal reveal-delay-2">340+ корсетів створених з любов'ю до деталей</p>
+
+    <div class="portfolio-filters reveal reveal-delay-3" id="filters">
+      <button class="filter-btn active" data-filter="all">Всі</button>
+      <button class="filter-btn" data-filter="wedding">Весільні</button>
+      <button class="filter-btn" data-filter="evening">Вечірні</button>
+      <button class="filter-btn" data-filter="casual">Casual</button>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO GRID -->
+<section id="portfolio-gallery">
+  <div class="ptf-grid" id="ptfGrid">
+    <!-- Заповнюється через JS -->
+  </div>
+
+  <div class="ptf-load-wrap" id="loadMoreWrap">
+    <button class="ptf-load-btn" id="loadMoreBtn">Завантажити ще</button>
+    <span class="ptf-count" id="ptfCount"></span>
+  </div>
+
+  <div class="ptf-empty" id="ptfEmpty" style="display:none">
+    <p>Робіт у цій категорії поки немає</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">Інна Ляховська</div>
+      <div class="footer-tagline">Корсети ручної роботи · Львів</div>
+    </div>
+    <div class="footer-nav-group">
+      <div class="footer-nav-title">Сторінки</div>
+      <a href="/#about" class="footer-link">Про мене</a>
+      <a href="/portfolio.html" class="footer-link">Портфоліо</a>
+      <a href="/#process" class="footer-link">Процес</a>
+      <a href="/#contact" class="footer-link">Контакти</a>
+    </div>
+    <div class="footer-nav-group">
+      <div class="footer-nav-title">Послуги</div>
+      <a href="/#pricing" class="footer-link">Кастомний корсет</a>
+      <a href="/#pricing" class="footer-link">Ремонт та корекція</a>
+      <a href="/#pricing" class="footer-link">Консультація</a>
+    </div>
+    <div class="footer-nav-group">
+      <div class="footer-nav-title">Контакти</div>
+      <a href="tel:+380501234567" class="footer-link">+38 (050) 123 45 67</a>
+      <a href="#" class="footer-link">Telegram</a>
+      <a href="#" class="footer-link">Instagram</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Інна Ляховська · Пошив корсетів у Львові · Всі права захищені</div>
+    <div class="footer-socials">
+      <a href="#" class="social-link">Tg</a>
+      <a href="#" class="social-link">Ig</a>
+      <a href="#" class="social-link">Fb</a>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL — ДЕТАЛІ РОБОТИ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" id="modalClose" aria-label="Закрити">×</button>
+
+    <!-- Слайдер фото -->
+    <div class="modal-slider" id="modalSlider">
+      <button class="slider-arrow slider-prev" id="sliderPrev">←</button>
+      <div class="slider-track" id="sliderTrack">
+        <!-- фото або заглушки -->
+      </div>
+      <button class="slider-arrow slider-next" id="sliderNext">→</button>
+      <div class="slider-dots" id="sliderDots"></div>
+      <div class="slider-counter" id="sliderCounter">Фото 1 з 1</div>
+    </div>
+
+    <!-- Інфо -->
+    <div class="modal-info" id="modalInfo">
+      <div class="modal-cat" id="modalCat"></div>
+      <h2 class="modal-title" id="modalTitle"></h2>
+
+      <div class="modal-section">
+        <div class="modal-section-label">Опис</div>
+        <div class="modal-desc" id="modalDesc"></div>
+      </div>
+
+      <div class="modal-section" id="materialsSection">
+        <div class="modal-section-label">Матеріали</div>
+        <div class="modal-tags" id="modalMaterials"></div>
+      </div>
+
+      <div class="modal-section" id="paramsSection">
+        <div class="modal-section-label">Параметри пошиву</div>
+        <div class="modal-params" id="modalParams"></div>
+      </div>
+
+      <div class="modal-section" id="timeSection">
+        <div class="modal-section-label">Час виготовлення</div>
+        <div class="modal-time" id="modalTime"></div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-label">Вартість</div>
+        <div class="modal-price" id="modalPrice"></div>
+        <div class="modal-price-note" id="modalPriceNote"></div>
+      </div>
+
+      <button class="modal-order-btn" id="modalOrderBtn">Замовити цей корсет</button>
+    </div>
+  </div>
+</div>
+
+<!-- ПОПАП ФОРМИ ЗАМОВЛЕННЯ -->
+<div class="order-overlay" id="orderOverlay">
+  <div class="order-box" id="orderBox">
+    <button class="order-close" id="orderClose" aria-label="Закрити">×</button>
+
+    <div class="order-form-wrap" id="orderFormWrap">
+      <div class="order-title">Замовити корсет</div>
+
+      <form class="order-form" id="orderForm" novalidate>
+        <div class="form-group">
+          <label class="form-label">Ваше ім'я *</label>
+          <input class="form-input" id="oName" type="text" placeholder="Марія" autocomplete="name">
+          <div class="form-error" id="oNameErr"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Телефон або Telegram *</label>
+          <input class="form-input" id="oPhone" type="text" placeholder="+38 050 123 45 67" autocomplete="tel">
+          <div class="form-error" id="oPhoneErr"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Ваш розмір (орієнтовно)</label>
+          <div class="size-grid" id="sizeGrid">
+            <button type="button" class="size-btn" data-size="XS">XS</button>
+            <button type="button" class="size-btn" data-size="S">S</button>
+            <button type="button" class="size-btn" data-size="M">M</button>
+            <button type="button" class="size-btn" data-size="L">L</button>
+            <button type="button" class="size-btn" data-size="XL">XL</button>
+            <button type="button" class="size-btn" data-size="XXL">XXL</button>
+            <button type="button" class="size-btn" data-size="XXXL">XXXL</button>
+            <button type="button" class="size-btn" data-size="Не знаю">Не знаю</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Робота</label>
+          <input class="form-input" id="oWork" type="text" placeholder="Назва роботи або вільний опис">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Побажання</label>
+          <textarea class="form-textarea" id="oMessage" placeholder="Матеріал, колір, особливості..." rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="form-submit">Надіслати заявку →</button>
+      </form>
+    </div>
+
+    <div class="order-success" id="orderSuccess" style="display:none">
+      <div class="form-success-icon">✦</div>
+      <div class="form-success-title">Заявку отримано!</div>
+      <div class="form-success-text">Інна зв'яжеться з вами<br>протягом 2 годин.</div>
+    </div>
+  </div>
+</div>
+
+<canvas id="threadCanvas"></canvas>
+<div class="cursor-needle" id="cursorNeedle">
+  <svg width="16" height="72" viewBox="0 0 16 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ng" x1="0" y1="0" x2="16" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0%"   stop-color="#9A7030"/>
+        <stop offset="28%"  stop-color="#F2E0A0"/>
+        <stop offset="55%"  stop-color="#C8A050"/>
+        <stop offset="100%" stop-color="#7A5820"/>
+      </linearGradient>
+      <mask id="eyeMask">
+        <rect width="16" height="72" fill="white"/>
+        <ellipse cx="8" cy="60" rx="2.2" ry="3.4" fill="black"/>
+      </mask>
+    </defs>
+    <path d="M8 0 C8.6 2 9.5 5 9.5 10 L9.5 55 C9.5 57 9 58 8 58 C7 58 6.5 57 6.5 55 L6.5 10 C6.5 5 7.4 2 8 0 Z" fill="url(#ng)" mask="url(#eyeMask)"/>
+    <rect x="6.5" y="58" width="3" height="8" rx="1.5" fill="url(#ng)" mask="url(#eyeMask)"/>
+    <ellipse class="needle-eye" cx="8" cy="60" rx="2.8" ry="4" fill="none" stroke="#B8965A" stroke-width="0.9"/>
+    <line x1="7" y1="8" x2="7" y2="52" stroke="rgba(255,248,210,0.35)" stroke-width="0.6" stroke-linecap="round"/>
+    <ellipse cx="8" cy="1.2" rx="0.6" ry="1.2" fill="rgba(255,252,230,0.9)"/>
+  </svg>
+</div>
+
+<script src="/js/main.js"></script>
+<script src="/js/portfolio.js"></script>
+</body>
+</html>

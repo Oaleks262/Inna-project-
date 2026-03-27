@@ -53,53 +53,71 @@
 <!-- HERO -->
 
 <section id="hero">
-  <div class="hero-left">
-    <div class="hero-tag reveal">Ручна робота · Львів</div>
-    <h1 class="hero-h1 reveal reveal-delay-1">
-      Індивідуальні<br>корсети <em>ручної</em><br>роботи у Львові
-    </h1>
-    <p class="hero-desc reveal reveal-delay-2">
-      Ідеальна посадка під вашу фігуру вже з першої примірки.
-      Створюю корсети для весіль, фотосесій та особливих подій.
-    </p>
-    <div class="hero-checks reveal reveal-delay-2">
-      <div class="hero-check">✔ Преміум матеріали</div>
-      <div class="hero-check">✔ Повністю ручна робота</div>
-      <div class="hero-check">✔ Підбір під ваш стиль і характер</div>
-    </div>
-    <div class="hero-actions reveal reveal-delay-3">
-      <a href="#contact" class="btn-primary">Замовити корсет</a>
-      <a href="#portfolio" class="btn-ghost">Переглянути роботи</a>
-    </div>
-    <div class="hero-price-hint reveal reveal-delay-3">від 4500 грн · 3–4 тижні</div>
+  <!-- Background decorative corset art (full bleed) -->
+  <div class="hero-bg-art" aria-hidden="true">
+    <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220L70 280L100 280L100 220L130 220L150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#B8965A" stroke-width="1"/>
+      <path d="M100 20L100 280" stroke="#B8965A" stroke-width="0.5" opacity="0.4"/>
+      <path d="M25 90L175 90" stroke="#B8965A" stroke-width="0.4" opacity="0.3"/>
+      <path d="M22 130L178 130" stroke="#B8965A" stroke-width="0.4" opacity="0.3"/>
+      <path d="M20 160L180 160" stroke="#B8965A" stroke-width="0.4" opacity="0.3"/>
+    </svg>
   </div>
-  <div class="hero-right">
-    <div class="hero-img-wrap">
-      <div class="corset-art">
-        <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220L70 280L100 280L100 220L130 220L150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#B8965A" stroke-width="1.5"/>
-          <path d="M100 20L100 280" stroke="#B8965A" stroke-width="0.5" opacity="0.3"/>
-          <path d="M25 90L175 90" stroke="#B8965A" stroke-width="0.5" opacity="0.2"/>
-          <path d="M22 130L178 130" stroke="#B8965A" stroke-width="0.5" opacity="0.2"/>
-          <path d="M20 160L180 160" stroke="#B8965A" stroke-width="0.5" opacity="0.2"/>
-        </svg>
+
+  <div class="hero-inner">
+    <!-- LEFT: text content -->
+    <div class="hero-left">
+      <div class="hero-tag reveal">Ручна робота · Львів</div>
+      <h1 class="hero-h1 reveal reveal-delay-1">
+        Індивідуальні корсети <em>ручної роботи</em> у Львові
+      </h1>
+      <p class="hero-desc reveal reveal-delay-2">
+        Ідеальна посадка під вашу фігуру вже з першої примірки.
+        Створюю корсети для весіль, фотосесій та особливих подій.
+      </p>
+      <div class="hero-checks reveal reveal-delay-2">
+        <div class="hero-check">✔ Преміум матеріали</div>
+        <div class="hero-check">✔ Повністю ручна робота</div>
+        <div class="hero-check">✔ Підбір під ваш стиль і характер</div>
       </div>
+      <div class="hero-actions reveal reveal-delay-3">
+        <a href="#contact" class="btn-primary">Замовити корсет</a>
+        <a href="#portfolio" class="btn-ghost">Переглянути роботи</a>
+      </div>
+      <div class="hero-price-hint reveal reveal-delay-3">від 4500 грн · 3–4 тижні</div>
     </div>
-    <div class="hero-counter">
-      <div class="counter-item">
-        <span class="counter-num">8+</span>
-        <span class="counter-label">Років досвіду</span>
+
+    <!-- RIGHT: photo placeholder + stats -->
+    <div class="hero-right">
+      <div class="hero-photo-wrap">
+        <!-- Замініть на <img src="/img/hero-photo.jpg" alt="Інна Ляховська" class="hero-photo"> -->
+        <div class="hero-photo-placeholder">
+          <svg viewBox="0 0 100 150" fill="none">
+            <path d="M50 10C30 10 15 25 12 45L10 80C10 90 15 100 25 105L35 110L35 140L50 140L50 110L65 110L75 105C85 100 90 90 90 80L88 45C85 25 70 10 50 10Z" stroke="#B8965A" stroke-width="1"/>
+            <path d="M50 10L50 140" stroke="#B8965A" stroke-width="0.5" opacity="0.5"/>
+          </svg>
+          <span>Фото майстра</span>
+        </div>
       </div>
-      <div class="counter-item">
-        <span class="counter-num">340</span>
-        <span class="counter-label">Виробів</span>
-      </div>
-      <div class="counter-item">
-        <span class="counter-num">98%</span>
-        <span class="counter-label">Задоволених</span>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-num">8+</span>
+          <span class="hero-stat-label">Років досвіду</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">340+</span>
+          <span class="hero-stat-label">Виробів</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">98%</span>
+          <span class="hero-stat-label">Задоволених</span>
+        </div>
       </div>
     </div>
   </div>
+
   <div class="scroll-line">Гортай</div>
 </section>
 

@@ -22,19 +22,31 @@ function writeJSON(file, data) {
 // ─── AUTH ──────────────────────────────────────────────────────────────────
 
 // POST /api/admin/login
+//router.post('/login', async (req, res) => {
+  //const { login, password } = req.body;
+  //if (login !== process.env.ADMIN_LOGIN) {
+    //return res.status(401).json({ error: 'Невірний логін або пароль' });
+  //}
+   //const valid = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH);
+  //if (!valid) {
+    //return res.status(401).json({ error: 'Невірний логін або пароль' });
+  //}
+  //const token = jwt.sign({ login }, process.env.JWT_SECRET, { expiresIn: '7d' });
+  //res.json({ token });
+//});
 router.post('/login', async (req, res) => {
   const { login, password } = req.body;
-  if (login !== process.env.ADMIN_LOGIN) {
+
+  if (
+    login !== process.env.ADMIN_LOGIN ||
+    password !== process.env.ADMIN_PASSWORD_HASH
+  ) {
     return res.status(401).json({ error: 'Невірний логін або пароль' });
   }
-  const valid = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH);
-  if (!valid) {
-    return res.status(401).json({ error: 'Невірний логін або пароль' });
-  }
+
   const token = jwt.sign({ login }, process.env.JWT_SECRET, { expiresIn: '7d' });
   res.json({ token });
 });
-
 // ─── PORTFOLIO ──────────────────────────────────────────────────────────────
 
 // GET /api/admin/portfolio — всі роботи (з прихованими)

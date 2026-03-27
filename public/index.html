@@ -176,65 +176,12 @@
       <button class="filter-btn" data-filter="casual">Casual</button>
     </div>
   </div>
-  <div class="portfolio-grid">
-    <div class="item" data-cat="wedding">
-      <div class="portfolio-item">
-        <div class="portfolio-item-bg" style="background:linear-gradient(135deg,#1a1410,#0d0b09)">
-          <svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#B8965A" stroke-width="1"/></svg>
-        </div>
-        <div class="portfolio-num">01</div>
-        <div class="portfolio-overlay"><div class="portfolio-cat">Весільний</div><div class="portfolio-name">Класика у білому</div></div>
-      </div>
-    </div>
-    <div class="item" data-cat="evening">
-      <div class="portfolio-item">
-        <div class="portfolio-item-bg" style="background:linear-gradient(135deg,#1a1016,#110d14)">
-          <svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#9B7FBF" stroke-width="1"/></svg>
-        </div>
-        <div class="portfolio-num">02</div>
-        <div class="portfolio-overlay"><div class="portfolio-cat">Вечірній</div><div class="portfolio-name">Ніч в Парижі</div></div>
-      </div>
-    </div>
-    <div class="item" data-cat="casual">
-      <div class="portfolio-item">
-        <div class="portfolio-item-bg" style="background:linear-gradient(135deg,#141a14,#0d1410)">
-          <svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#7A9B7A" stroke-width="1"/></svg>
-        </div>
-        <div class="portfolio-num">03</div>
-        <div class="portfolio-overlay"><div class="portfolio-cat">Casual</div><div class="portfolio-name">Лісова відьма</div></div>
-      </div>
-    </div>
-    <div class="item" data-cat="evening">
-      <div class="portfolio-item">
-        <div class="portfolio-item-bg" style="background:linear-gradient(135deg,#1a1510,#120f08)">
-          <svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#D4B483" stroke-width="1.2"/></svg>
-        </div>
-        <div class="portfolio-num">04</div>
-        <div class="portfolio-overlay"><div class="portfolio-cat">Вечірній</div><div class="portfolio-name">Золота богиня</div></div>
-      </div>
-    </div>
-    <div class="item" data-cat="wedding">
-      <div class="portfolio-item">
-        <div class="portfolio-item-bg" style="background:linear-gradient(135deg,#18151a,#110e13)">
-          <svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#E8C8D8" stroke-width="1"/></svg>
-        </div>
-        <div class="portfolio-num">05</div>
-        <div class="portfolio-overlay"><div class="portfolio-cat">Весільний</div><div class="portfolio-name">Рожевий блиск</div></div>
-      </div>
-    </div>
-    <div class="item" data-cat="casual">
-      <div class="portfolio-item">
-        <div class="portfolio-item-bg" style="background:linear-gradient(135deg,#1a1618,#130f11)">
-          <svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#C8A0A8" stroke-width="1"/></svg>
-        </div>
-        <div class="portfolio-num">06</div>
-        <div class="portfolio-overlay"><div class="portfolio-cat">Casual</div><div class="portfolio-name">Міська романтика</div></div>
-      </div>
-    </div>
+  <div class="portfolio-grid" id="homePortfolioGrid">
+    <!-- Завантажується з API -->
   </div>
   <div class="portfolio-more reveal">
     <a href="/portfolio" class="btn-outline-gold">Переглянути всі роботи →</a>
-    <span class="portfolio-count">340+ робіт</span>
+    <span class="portfolio-count" id="homePortfolioCount">20+ робіт</span>
   </div>
 </section>
 

@@ -674,6 +674,9 @@ transition: opacity .4s;
 .portfolio-item:hover .portfolio-overlay { opacity: 1; }
 .portfolio-cat { font-size: 0.58rem; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase; color: #B8965A; margin-bottom: 6px; }
 .portfolio-name { font-family: ‘Cormorant Garamond’, Georgia, serif; font-size: 1.3rem; font-weight: 300; font-style: italic; color: #F8F5F0; }
+.portfolio-price { font-size: 0.65rem; font-weight: 300; letter-spacing: 0.12em; color: rgba(184,150,90,0.7); margin-top: 4px; }
+/* portfolio-item as link */
+a.portfolio-item { display: block; text-decoration: none; }
 .portfolio-num {
 position: absolute; top: 20px; right: 20px;
 font-family: ‘Cormorant Garamond’, Georgia, serif;

@@ -193,4 +193,48 @@
     });
   }
 
+  /* ── Homepage portfolio: load 6 items from API ── */
+  var homeGrid = document.getElementById('homePortfolioGrid');
+  var homeCount = document.getElementById('homePortfolioCount');
+  if (homeGrid) {
+    var CAT_UA = { wedding: 'Весільний', evening: 'Вечірній', casual: 'Casual' };
+    fetch('/api/portfolio?page=1&limit=6')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (homeCount && data.total) homeCount.textContent = data.total + '+ робіт';
+        if (!data.items || !data.items.length) return;
+        homeGrid.innerHTML = '';
+        data.items.forEach(function(item, idx) {
+          var bg = item.images && item.images[0]
+            ? '<img src="' + item.images[0] + '" alt="' + item.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">'
+            : '<div class="portfolio-item-bg"><svg viewBox="0 0 200 300" fill="none"><path d="M100 20C60 20 30 50 25 90L20 160C20 180 30 200 50 210L70 220 70 280 100 280 100 220 130 220 150 210C170 200 180 180 180 160L175 90C170 50 140 20 100 20Z" stroke="#B8965A" stroke-width="1"/></svg></div>';
+          var num = String(idx + 1).padStart(2, '0');
+          var cat = CAT_UA[item.category] || item.category;
+          var price = item.pricing && item.pricing.basePrice ? 'від ' + item.pricing.basePrice.toLocaleString('uk-UA') + ' грн' : '';
+          var div = document.createElement('div');
+          div.className = 'item reveal';
+          div.setAttribute('data-cat', item.category);
+          div.innerHTML = '<a href="/portfolio" class="portfolio-item">'
+            + bg
+            + '<div class="portfolio-num">' + num + '</div>'
+            + '<div class="portfolio-overlay">'
+            + '<div class="portfolio-cat">' + cat + '</div>'
+            + '<div class="portfolio-name">' + item.title + '</div>'
+            + (price ? '<div class="portfolio-price">' + price + '</div>' : '')
+            + '</div></a>';
+          homeGrid.appendChild(div);
+        });
+        /* re-run reveal observer on new elements */
+        if ('IntersectionObserver' in window) {
+          var io2 = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); io2.unobserve(e.target); } });
+          }, { threshold: 0.08 });
+          homeGrid.querySelectorAll('.reveal').forEach(function(el) { io2.observe(el); });
+        } else {
+          homeGrid.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('visible'); });
+        }
+      })
+      .catch(function() { /* якщо API недоступний — grid залишається порожнім */ });
+  }
+
 })();

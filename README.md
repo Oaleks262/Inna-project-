@@ -67,7 +67,7 @@ cp .env.example .env
 Відредагуйте `.env`:
 
 ```env
-PORT=3000
+PORT=1202
 JWT_SECRET=your-random-secret-32chars
 
 # Пароль адміна (bcrypt hash)
@@ -83,7 +83,7 @@ CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 
-SITE_URL=http://localhost:3000
+SITE_URL=http://localhost:1202
 ```
 
 ### 3. Генерація bcrypt hash для пароля
@@ -106,8 +106,8 @@ node server.js
 npx nodemon server.js
 ```
 
-Відкрийте: [http://localhost:3000](http://localhost:3000)
-Адмін-панель: [http://localhost:3000/admin/](http://localhost:3000/admin/)
+Відкрийте: [http://localhost:1202](http://localhost:1202)
+Адмін-панель: [http://localhost:1202/admin/](http://localhost:1202/admin/)
 
 ---
 

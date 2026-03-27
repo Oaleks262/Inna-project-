@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Адмін-панель | Інна Ляховська</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-page">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-name">Інна Ляховська</div>
+    <div class="sidebar-sub">Корсети · Львів</div>
+  </div>
+  <nav class="sidebar-nav">
+    <a class="sidebar-link active" data-section="dashboard" href="#">
+      <span class="sidebar-icon">◈</span> Dashboard
+    </a>
+    <a class="sidebar-link" data-section="portfolio" href="#">
+      <span class="sidebar-icon">◻</span> Портфоліо
+    </a>
+    <a class="sidebar-link" data-section="requests" href="#">
+      <span class="sidebar-icon">◷</span> Заявки
+      <span class="sidebar-badge" id="newBadge" style="display:none"></span>
+    </a>
+    <a class="sidebar-link" data-section="settings" href="#">
+      <span class="sidebar-icon">◉</span> Налаштування
+    </a>
+  </nav>
+  <button class="sidebar-logout" id="logoutBtn">⬡ Вийти</button>
+</aside>
+
+<!-- MAIN -->
+<main class="adm-main" id="admMain">
+
+  <!-- BURGER (mobile) -->
+  <button class="adm-burger" id="admBurger">☰</button>
+
+  <!-- ── DASHBOARD ── -->
+  <section class="adm-section active" id="sec-dashboard">
+    <div class="adm-page-title">Dashboard</div>
+
+    <div class="dash-cards" id="dashCards">
+      <div class="dash-card">
+        <div class="dash-card-val" id="dcNew">—</div>
+        <div class="dash-card-label">🆕 Нових заявок</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-val" id="dcTotal">—</div>
+        <div class="dash-card-label">📋 Всього заявок</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-val" id="dcWorks">—</div>
+        <div class="dash-card-label">🖼 Робіт у портфоліо</div>
+      </div>
+    </div>
+
+    <div class="adm-card">
+      <div class="adm-card-title">Останні заявки</div>
+      <div class="adm-table-wrap">
+        <table class="adm-table" id="dashTable">
+          <thead>
+            <tr>
+              <th>Дата</th><th>Ім'я</th><th>Телефон</th><th>Розмір</th><th>Статус</th>
+            </tr>
+          </thead>
+          <tbody id="dashTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PORTFOLIO ── -->
+  <section class="adm-section" id="sec-portfolio">
+    <div class="adm-page-header">
+      <div class="adm-page-title">Портфоліо</div>
+      <button class="adm-btn-primary" id="addWorkBtn">+ Додати роботу</button>
+    </div>
+
+    <div class="adm-card">
+      <div class="adm-table-wrap">
+        <table class="adm-table" id="portfolioTable">
+          <thead>
+            <tr>
+              <th>Фото</th><th>Назва</th><th>Категорія</th><th>Ціна від</th><th>Видимий</th><th>Дії</th>
+            </tr>
+          </thead>
+          <tbody id="portfolioTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── REQUESTS ── -->
+  <section class="adm-section" id="sec-requests">
+    <div class="adm-page-title">Заявки</div>
+
+    <div class="adm-filters" id="reqFilters">
+      <button class="adm-filter-btn active" data-status="all">Всі</button>
+      <button class="adm-filter-btn" data-status="new">🆕 Нові</button>
+      <button class="adm-filter-btn" data-status="viewed">👀 Переглянуті</button>
+      <button class="adm-filter-btn" data-status="in_progress">🔨 В роботі</button>
+      <button class="adm-filter-btn" data-status="done">✅ Завершені</button>
+    </div>
+
+    <div class="adm-card">
+      <div class="adm-table-wrap">
+        <table class="adm-table" id="requestsTable">
+          <thead>
+            <tr>
+              <th>Дата</th><th>Ім'я</th><th>Телефон</th><th>Розмір</th><th>Робота</th><th>Статус</th><th>Дії</th>
+            </tr>
+          </thead>
+          <tbody id="requestsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SETTINGS ── -->
+  <section class="adm-section" id="sec-settings">
+    <div class="adm-page-title">Налаштування</div>
+
+    <div class="adm-card adm-card-narrow">
+      <div class="adm-card-title">Контактна інформація</div>
+      <form id="settingsForm">
+        <div class="adm-form-group">
+          <label class="adm-label">Телефон</label>
+          <input class="adm-input" id="sPhone" type="text">
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Instagram</label>
+          <input class="adm-input" id="sInstagram" type="text">
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Telegram</label>
+          <input class="adm-input" id="sTelegram" type="text">
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Адреса</label>
+          <input class="adm-input" id="sAddress" type="text">
+        </div>
+        <button class="adm-btn-primary" type="submit">Зберегти контакти</button>
+        <span class="settings-msg" id="settingsMsg"></span>
+      </form>
+    </div>
+
+    <div class="adm-card adm-card-narrow">
+      <div class="adm-card-title">Зміна пароля</div>
+      <form id="passwordForm">
+        <div class="adm-form-group">
+          <label class="adm-label">Поточний пароль</label>
+          <input class="adm-input" id="pwCurrent" type="password">
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Новий пароль</label>
+          <input class="adm-input" id="pwNew" type="password">
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Повторіть новий</label>
+          <input class="adm-input" id="pwConfirm" type="password">
+        </div>
+        <button class="adm-btn-primary" type="submit">Змінити пароль</button>
+        <span class="settings-msg" id="passwordMsg"></span>
+      </form>
+    </div>
+
+    <div class="adm-card adm-card-narrow">
+      <div class="adm-card-title">Telegram бот</div>
+      <button class="adm-btn-secondary" id="testTelegramBtn">📨 Надіслати тестове повідомлення</button>
+      <span class="settings-msg" id="telegramMsg"></span>
+    </div>
+  </section>
+
+</main>
+
+<!-- MODAL: ФОРМА РОБОТИ (додати / редагувати) -->
+<div class="adm-overlay" id="workOverlay">
+  <div class="adm-modal">
+    <button class="adm-modal-close" id="workModalClose">×</button>
+    <div class="adm-modal-title" id="workModalTitle">Додати роботу</div>
+
+    <form id="workForm" novalidate>
+      <input type="hidden" id="workId">
+
+      <div class="adm-form-group">
+        <label class="adm-label">Назва роботи *</label>
+        <input class="adm-input" id="wTitle" type="text">
+      </div>
+      <div class="adm-form-group">
+        <label class="adm-label">Категорія *</label>
+        <select class="adm-input adm-select" id="wCategory">
+          <option value="wedding">Весільний</option>
+          <option value="evening">Вечірній</option>
+          <option value="casual">Casual</option>
+        </select>
+      </div>
+      <div class="adm-form-group">
+        <label class="adm-label">Опис</label>
+        <textarea class="adm-input adm-textarea" id="wDesc" rows="3"></textarea>
+      </div>
+
+      <div class="adm-form-group">
+        <label class="adm-label">Фото (URL через кому, або завантажте)</label>
+        <input class="adm-input" id="wImages" type="text" placeholder="https://...url1, https://...url2">
+        <div class="adm-form-hint">Після підключення Cloudinary — перетягніть файли</div>
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="uploadInput" multiple accept="image/*" style="display:none">
+          <div class="upload-placeholder" id="uploadPlaceholder">
+            Перетягніть фото сюди або <span>натисніть для вибору</span>
+          </div>
+          <div class="upload-previews" id="uploadPreviews"></div>
+        </div>
+      </div>
+
+      <div class="adm-form-group">
+        <label class="adm-label">Матеріали (Enter — додати тег)</label>
+        <div class="tags-input" id="materialsInput">
+          <div class="tags-list" id="materialsTags"></div>
+          <input class="tags-field" id="materialsField" type="text" placeholder="+ додати матеріал">
+        </div>
+      </div>
+
+      <div class="adm-form-row">
+        <div class="adm-form-group">
+          <label class="adm-label">Груди, см</label>
+          <input class="adm-input" id="wBust" type="text" placeholder="88 см">
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Талія, см</label>
+          <input class="adm-input" id="wWaist" type="text" placeholder="64 см">
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Стегна, см</label>
+          <input class="adm-input" id="wHips" type="text" placeholder="92 см">
+        </div>
+      </div>
+
+      <div class="adm-form-row">
+        <div class="adm-form-group">
+          <label class="adm-label">Час виготовлення</label>
+          <input class="adm-input" id="wTime" type="text" placeholder="3 тижні">
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Мінімальна ціна, грн</label>
+          <input class="adm-input" id="wPrice" type="number" placeholder="4500">
+        </div>
+      </div>
+      <div class="adm-form-group">
+        <label class="adm-label">Підказка ціни</label>
+        <input class="adm-input" id="wPriceNote" type="text" placeholder="від 4 500 грн · залежить від розміру">
+      </div>
+
+      <div class="adm-form-group adm-toggle-group">
+        <label class="adm-label">Видимий на сайті</label>
+        <label class="toggle">
+          <input type="checkbox" id="wVisible" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="adm-modal-actions">
+        <button class="adm-btn-primary" type="submit" id="workSubmitBtn">Зберегти</button>
+        <button class="adm-btn-secondary" type="button" id="workCancelBtn">Скасувати</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ДЕТАЛІ ЗАЯВКИ -->
+<div class="adm-overlay" id="reqOverlay">
+  <div class="adm-modal adm-modal-sm">
+    <button class="adm-modal-close" id="reqModalClose">×</button>
+    <div class="adm-modal-title" id="reqModalTitle">Заявка</div>
+    <div class="req-detail" id="reqDetail"></div>
+    <div class="adm-form-group" style="margin-top:20px">
+      <label class="adm-label">Статус</label>
+      <select class="adm-input adm-select" id="reqStatusSelect">
+        <option value="new">🆕 Нова</option>
+        <option value="viewed">👀 Переглянута</option>
+        <option value="in_progress">🔨 В роботі</option>
+        <option value="done">✅ Завершена</option>
+      </select>
+    </div>
+    <div class="adm-modal-actions">
+      <button class="adm-btn-primary" id="reqSaveStatus">Зберегти статус</button>
+      <button class="adm-btn-secondary" id="reqModalCloseBtn">Закрити</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DIALOG -->
+<div class="adm-overlay" id="confirmOverlay">
+  <div class="adm-modal adm-modal-sm confirm-modal">
+    <div class="confirm-text" id="confirmText">Підтвердити дію?</div>
+    <div class="adm-modal-actions">
+      <button class="adm-btn-danger" id="confirmYes">Так, видалити</button>
+      <button class="adm-btn-secondary" id="confirmNo">Скасувати</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>

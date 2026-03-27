@@ -138,22 +138,26 @@
 
   /* ── Navbar ── */
   var navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', function () {
-    navbar.classList.toggle('scrolled', window.pageYOffset > 60);
-  }, { passive: true });
+  if (navbar) {
+    window.addEventListener('scroll', function () {
+      navbar.classList.toggle('scrolled', window.pageYOffset > 60);
+    }, { passive: true });
+  }
 
   /* ── Burger ── */
   var burger  = document.getElementById('burger');
   var mobMenu = document.getElementById('mobileMenu');
   function closeMob() {
-    burger.classList.remove('open');
-    mobMenu.classList.remove('open');
+    if (burger) burger.classList.remove('open');
+    if (mobMenu) mobMenu.classList.remove('open');
     document.body.style.overflow = '';
   }
-  burger.addEventListener('click', function () {
-    if (mobMenu.classList.contains('open')) { closeMob(); }
-    else { burger.classList.add('open'); mobMenu.classList.add('open'); document.body.style.overflow = 'hidden'; }
-  });
+  if (burger && mobMenu) {
+    burger.addEventListener('click', function () {
+      if (mobMenu.classList.contains('open')) { closeMob(); }
+      else { burger.classList.add('open'); mobMenu.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    });
+  }
   document.querySelectorAll('.mob-link').forEach(function (el) { el.addEventListener('click', closeMob); });
 
   /* ── Scroll reveal ── */

@@ -44,14 +44,13 @@ router.post('/login', async (req, res) => {
   if (login !== process.env.ADMIN_LOGIN) {
     return res.status(401).json({ error: 'Невірний логін або пароль' });
   }
-  const valid = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH);
+   const valid = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH);
   if (!valid) {
     return res.status(401).json({ error: 'Невірний логін або пароль' });
   }
   const token = jwt.sign({ login }, secret, { expiresIn: '7d' });
   res.json({ token });
 });
-
 // ─── PORTFOLIO ──────────────────────────────────────────────────────────────
 
 // GET /api/admin/portfolio — всі роботи (з прихованими)

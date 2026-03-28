@@ -38,11 +38,12 @@
     document.querySelectorAll('.adm-section').forEach(function (s) {
       s.classList.toggle('active', s.id === 'sec-' + sec);
     });
-    if (sec === 'dashboard') loadDashboard();
-    if (sec === 'portfolio') loadPortfolio();
-    if (sec === 'requests')  loadRequests('all');
-    if (sec === 'photos')    loadSitePhotos();
-    if (sec === 'settings')  loadSettings();
+    if (sec === 'dashboard')    loadDashboard();
+    if (sec === 'portfolio')    loadPortfolio();
+    if (sec === 'requests')     loadRequests('all');
+    if (sec === 'testimonials') loadTestimonials();
+    if (sec === 'photos')       loadSitePhotos();
+    if (sec === 'settings')     loadSettings();
   }
 
   // Burger (mobile)
@@ -246,23 +247,53 @@
   function handleFiles(files) {
     Array.from(files).forEach(function (file) {
       if (!file.type.startsWith('image/')) return;
+
+      // Показуємо превью одразу
       var reader = new FileReader();
+      var wrap = document.createElement('div');
+      wrap.className = 'upload-preview upload-preview--loading';
+      wrap.innerHTML = '<div class="upload-preview-spinner">⏳</div>';
+      document.getElementById('uploadPreviews').appendChild(wrap);
+      document.getElementById('uploadPlaceholder').style.display = 'none';
+
       reader.onload = function (e) {
-        var wrap = document.createElement('div');
-        wrap.className = 'upload-preview';
-        wrap.innerHTML = '<img src="' + e.target.result + '" alt=""><button class="upload-preview-remove" type="button">×</button>';
+        wrap.innerHTML = '<img src="' + e.target.result + '" alt=""><button class="upload-preview-remove" type="button">×</button><div class="upload-preview-status">Завантаження...</div>';
         wrap.querySelector('.upload-preview-remove').addEventListener('click', function () {
+          // Прибрати URL зі списку
+          var url = wrap.getAttribute('data-url');
+          if (url) uploadedUrls = uploadedUrls.filter(function (u) { return u !== url; });
           wrap.remove();
+          if (!document.getElementById('uploadPreviews').children.length) {
+            document.getElementById('uploadPlaceholder').style.display = '';
+          }
         });
-        document.getElementById('uploadPreviews').appendChild(wrap);
       };
       reader.readAsDataURL(file);
+
+      // Реальний upload на сервер
+      var fd = new FormData();
+      fd.append('photos', file);
+      fetch('/api/admin/upload', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+        body: fd
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.urls && data.urls.length) {
+            var url = data.urls[0];
+            uploadedUrls.push(url);
+            wrap.setAttribute('data-url', url);
+            var status = wrap.querySelector('.upload-preview-status');
+            if (status) status.textContent = '✓';
+            setTimeout(function () { if (status) status.remove(); }, 1500);
+          }
+        })
+        .catch(function () {
+          var status = wrap.querySelector('.upload-preview-status');
+          if (status) status.textContent = '✗ Помилка';
+        });
     });
-    // Якщо підключений Cloudinary — тут буде реальний upload через /api/admin/upload
-    // Зараз попередження
-    if (files.length > 0) {
-      document.getElementById('uploadPlaceholder').style.display = 'none';
-    }
   }
 
   // Збереження роботи
@@ -274,6 +305,8 @@
 
     var imagesRaw = document.getElementById('wImages').value.trim();
     var images = imagesRaw ? imagesRaw.split(',').map(function(s){ return s.trim(); }).filter(Boolean) : [];
+    // Додаємо URL завантажених файлів
+    uploadedUrls.forEach(function (u) { if (images.indexOf(u) === -1) images.push(u); });
 
     var body = {
       title:       title,
@@ -404,6 +437,112 @@
         loadRequests(currentReqStatus);
         loadDashboard(); // оновити бейдж
       });
+  });
+
+  // ─── TESTIMONIALS ──────────────────────────────────────────────────────────
+  var testimonialItems = [];
+  var editingTestimonialId = null;
+
+  function loadTestimonials() {
+    api('GET', '/api/testimonials/all').then(function (data) {
+      testimonialItems = data.items || [];
+      renderTestimonialsTable();
+    });
+  }
+
+  function renderTestimonialsTable() {
+    var tbody = document.getElementById('testimonialsTableBody');
+    tbody.innerHTML = '';
+    testimonialItems.forEach(function (t) {
+      var stars = '★'.repeat(t.rating) + '☆'.repeat(5 - t.rating);
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td style="color:var(--text)">' + esc(t.name) + '</td>' +
+        '<td>' + esc(t.city || '—') + '</td>' +
+        '<td>' + esc(t.service || '—') + '</td>' +
+        '<td style="color:#B8965A">' + stars + '</td>' +
+        '<td><label class="toggle"><input type="checkbox" class="toggle-tvis" data-id="' + t.id + '"' + (t.isVisible ? ' checked' : '') + '><span class="toggle-slider"></span></label></td>' +
+        '<td style="white-space:nowrap">' +
+          '<button class="adm-btn-icon btn-edit-t" data-id="' + t.id + '">✏️</button> ' +
+          '<button class="adm-btn-icon danger btn-del-t" data-id="' + t.id + '">🗑</button>' +
+        '</td>';
+      tbody.appendChild(tr);
+    });
+    if (!testimonialItems.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:rgba(248,245,240,0.25);padding:32px">Відгуків немає</td></tr>';
+    }
+    tbody.querySelectorAll('.toggle-tvis').forEach(function (cb) {
+      cb.addEventListener('change', function () {
+        var id = this.getAttribute('data-id');
+        var item = testimonialItems.find(function (t) { return t.id === id; });
+        if (item) api('PUT', '/api/testimonials/' + id, { isVisible: this.checked });
+      });
+    });
+    tbody.querySelectorAll('.btn-edit-t').forEach(function (btn) {
+      btn.addEventListener('click', function () { openTestimonialModal(this.getAttribute('data-id')); });
+    });
+    tbody.querySelectorAll('.btn-del-t').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = this.getAttribute('data-id');
+        showConfirm('Видалити відгук?', function () {
+          api('DELETE', '/api/testimonials/' + id).then(loadTestimonials);
+        });
+      });
+    });
+  }
+
+  document.getElementById('addTestimonialBtn').addEventListener('click', function () { openTestimonialModal(null); });
+
+  function openTestimonialModal(id) {
+    editingTestimonialId = id;
+    document.getElementById('testimonialForm').reset();
+    if (id) {
+      var t = testimonialItems.find(function (x) { return x.id === id; });
+      if (!t) return;
+      document.getElementById('testimonialModalTitle').textContent = 'Редагувати відгук';
+      document.getElementById('tId').value       = t.id;
+      document.getElementById('tName').value     = t.name || '';
+      document.getElementById('tCity').value     = t.city || '';
+      document.getElementById('tService').value  = t.service || '';
+      document.getElementById('tText').value     = t.text || '';
+      document.getElementById('tRating').value   = t.rating || 5;
+      document.getElementById('tVisible').checked = t.isVisible !== false;
+    } else {
+      document.getElementById('testimonialModalTitle').textContent = 'Додати відгук';
+    }
+    document.getElementById('testimonialOverlay').classList.add('open');
+  }
+
+  document.getElementById('testimonialModalClose').addEventListener('click', closeTestimonialModal);
+  document.getElementById('testimonialCancelBtn').addEventListener('click', closeTestimonialModal);
+  document.getElementById('testimonialOverlay').addEventListener('click', function (e) {
+    if (e.target === this) closeTestimonialModal();
+  });
+  function closeTestimonialModal() { document.getElementById('testimonialOverlay').classList.remove('open'); }
+
+  document.getElementById('testimonialForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('tName').value.trim();
+    var text = document.getElementById('tText').value.trim();
+    if (!name || !text) { alert('Ім\'я та текст обов\'язкові'); return; }
+    var body = {
+      name,
+      city:      document.getElementById('tCity').value.trim(),
+      service:   document.getElementById('tService').value.trim(),
+      text,
+      rating:    parseInt(document.getElementById('tRating').value) || 5,
+      isVisible: document.getElementById('tVisible').checked
+    };
+    var btn = document.getElementById('testimonialSubmitBtn');
+    btn.disabled = true;
+    var req = editingTestimonialId
+      ? api('PUT',  '/api/testimonials/' + editingTestimonialId, body)
+      : api('POST', '/api/testimonials', body);
+    req.then(function () {
+      btn.disabled = false;
+      closeTestimonialModal();
+      loadTestimonials();
+    }).catch(function () { btn.disabled = false; });
   });
 
   // ─── SITE PHOTOS ───────────────────────────────────────────────────────────
@@ -588,7 +727,7 @@
   // ─── ESC ───────────────────────────────────────────────────────────────────
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
-    ['workOverlay','reqOverlay','confirmOverlay'].forEach(function (id) {
+    ['workOverlay','reqOverlay','confirmOverlay','testimonialOverlay'].forEach(function (id) {
       document.getElementById(id).classList.remove('open');
     });
   });

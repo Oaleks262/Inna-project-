@@ -1,20 +1,10 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const cloudinary = require('cloudinary').v2;
+const cors    = require('cors');
+const path    = require('path');
 
-const app = express();
+const app  = express();
 const PORT = process.env.PORT || 3000;
-
-// ─── Cloudinary ───────────────────────────────────────────────────────────────
-if (process.env.CLOUDINARY_CLOUD_NAME) {
-  cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-  });
-}
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(cors());
@@ -25,10 +15,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ─── API Routes ───────────────────────────────────────────────────────────────
-app.use('/api/portfolio', require('./routes/portfolio'));
-app.use('/api/requests', require('./routes/requests'));
-app.use('/api/admin', require('./routes/admin'));
-app.use('/api/admin/upload', require('./routes/upload'));
+app.use('/api/portfolio',     require('./routes/portfolio'));
+app.use('/api/requests',      require('./routes/requests'));
+app.use('/api/testimonials',  require('./routes/testimonials'));
+app.use('/api/admin',         require('./routes/admin'));
+app.use('/api/admin/upload',  require('./routes/upload'));
 
 // ─── Telegram Bot ─────────────────────────────────────────────────────────────
 if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_OWNER_CHAT_ID) {

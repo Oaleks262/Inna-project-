@@ -31,6 +31,9 @@
       <span class="sidebar-icon">◷</span> Заявки
       <span class="sidebar-badge" id="newBadge" style="display:none"></span>
     </a>
+    <a class="sidebar-link" data-section="testimonials" href="#">
+      <span class="sidebar-icon">◇</span> Відгуки
+    </a>
     <a class="sidebar-link" data-section="photos" href="#">
       <span class="sidebar-icon">◎</span> Фото сайту
     </a>
@@ -123,6 +126,24 @@
             </tr>
           </thead>
           <tbody id="requestsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section class="adm-section" id="sec-testimonials">
+    <div class="adm-page-header">
+      <div class="adm-page-title">Відгуки</div>
+      <button class="adm-btn-primary" id="addTestimonialBtn">+ Додати відгук</button>
+    </div>
+    <div class="adm-card">
+      <div class="adm-table-wrap">
+        <table class="adm-table" id="testimonialsTable">
+          <thead>
+            <tr><th>Ім'я</th><th>Місто</th><th>Послуга</th><th>Оцінка</th><th>Видимий</th><th>Дії</th></tr>
+          </thead>
+          <tbody id="testimonialsTableBody"></tbody>
         </table>
       </div>
     </div>
@@ -385,6 +406,56 @@
       <button class="adm-btn-danger" id="confirmYes">Так, видалити</button>
       <button class="adm-btn-secondary" id="confirmNo">Скасувати</button>
     </div>
+  </div>
+</div>
+
+<!-- MODAL: ВІДГУК -->
+<div class="adm-overlay" id="testimonialOverlay">
+  <div class="adm-modal adm-modal-sm">
+    <button class="adm-modal-close" id="testimonialModalClose">×</button>
+    <div class="adm-modal-title" id="testimonialModalTitle">Додати відгук</div>
+    <form id="testimonialForm" novalidate>
+      <input type="hidden" id="tId">
+      <div class="adm-form-group">
+        <label class="adm-label">Ім'я *</label>
+        <input class="adm-input" id="tName" type="text" placeholder="Марія Коваль">
+      </div>
+      <div class="adm-form-row">
+        <div class="adm-form-group">
+          <label class="adm-label">Місто</label>
+          <input class="adm-input" id="tCity" type="text" placeholder="Львів">
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Послуга</label>
+          <input class="adm-input" id="tService" type="text" placeholder="Весільний корсет">
+        </div>
+      </div>
+      <div class="adm-form-group">
+        <label class="adm-label">Текст відгуку *</label>
+        <textarea class="adm-input adm-textarea" id="tText" rows="4" placeholder="«Текст відгуку...»"></textarea>
+      </div>
+      <div class="adm-form-group">
+        <label class="adm-label">Оцінка</label>
+        <select class="adm-input adm-select" id="tRating">
+          <option value="5">★★★★★ (5)</option>
+          <option value="4">★★★★☆ (4)</option>
+          <option value="3">★★★☆☆ (3)</option>
+          <option value="2">★★☆☆☆ (2)</option>
+          <option value="1">★☆☆☆☆ (1)</option>
+        </select>
+      </div>
+      <div class="adm-form-group adm-toggle-group">
+        <label class="adm-label">Видимий на сайті</label>
+        <label class="toggle">
+          <input type="checkbox" id="tVisible" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="adm-modal-actions">
+        <button class="adm-btn-primary" type="submit" id="testimonialSubmitBtn">Зберегти</button>
+        <button class="adm-btn-secondary" type="button" id="testimonialCancelBtn">Скасувати</button>
+      </div>
+    </form>
   </div>
 </div>
 

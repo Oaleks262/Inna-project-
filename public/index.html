@@ -224,22 +224,8 @@
   <div class="section-tag reveal">Відгуки</div>
   <h2 class="section-title reveal reveal-delay-1" style="color:#080808">Що кажуть <em>клієнтки</em></h2>
   <p style="font-size:.85rem;color:rgba(8,8,8,.5);margin-bottom:48px;" class="reveal reveal-delay-2">Понад 340 щасливих клієнток по всій Україні та за кордоном</p>
-  <div class="testimonials-track">
-    <div class="testimonial-card reveal">
-      <div class="stars"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
-      <div class="testimonial-text">«Ольга зробила неможливе — корсет сидить ідеально, хоча в мене нестандартна фігура. Весілля пройшло чудово, всі питали де я взяла таку красу.»</div>
-      <div class="testimonial-author"><div class="author-avatar">М</div><div><div class="author-name">Марія Коваль</div><div class="author-city">Львів · Весільний корсет</div></div></div>
-    </div>
-    <div class="testimonial-card reveal reveal-delay-1">
-      <div class="stars"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
-      <div class="testimonial-text">«Замовляла вечірній корсет на корпоратив. Ольга — справжній професіонал. Дуже уважна до деталей і завжди на зв'язку. Буду замовляти ще!»</div>
-      <div class="testimonial-author"><div class="author-avatar">А</div><div><div class="author-name">Аліна Шевченко</div><div class="author-city">Київ · Вечірній корсет</div></div></div>
-    </div>
-    <div class="testimonial-card reveal reveal-delay-2">
-      <div class="stars"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span></div>
-      <div class="testimonial-text">«Casual корсет для фотосесії — мрія! Матеріали відчуваються преміально, посадка бездоганна. Дякую за терплячість і увагу.»</div>
-      <div class="testimonial-author"><div class="author-avatar">С</div><div><div class="author-name">Соломія Іваненко</div><div class="author-city">Львів · Casual корсет</div></div></div>
-    </div>
+  <div class="testimonials-track" id="testimonialsTrack">
+    <!-- Завантажується динамічно -->
   </div>
 </section>
 
@@ -291,13 +277,13 @@
   </div>
   <div class="reveal reveal-delay-1">
     <form class="contact-form" id="contactForm">
-      <div class="form-group"><label class="form-label">Ваше ім'я</label><input type="text" class="form-input" placeholder="Наприклад, Марія" required></div>
-      <div class="form-group"><label class="form-label">Телефон або Telegram</label><input type="tel" class="form-input" placeholder="+38 (0__) ___ __ __" required></div>
+      <div class="form-group"><label class="form-label">Ваше ім'я</label><input type="text" id="cfName" class="form-input" placeholder="Наприклад, Марія" required></div>
+      <div class="form-group"><label class="form-label">Телефон або Telegram</label><input type="tel" id="cfPhone" class="form-input" placeholder="+38 (0__) ___ __ __" required></div>
       <div class="form-group"><label class="form-label">Тип послуги</label>
-        <select class="form-select form-input"><option value="">Оберіть послугу...</option><option>Кастомний корсет (від 4500 грн)</option><option>Ремонт / корекція (від 500 грн)</option><option>Консультація (300 грн)</option></select>
+        <select id="cfService" class="form-select form-input"><option value="">Оберіть послугу...</option><option>Кастомний корсет (від 4500 грн)</option><option>Ремонт / корекція (від 500 грн)</option><option>Консультація (300 грн)</option></select>
       </div>
-      <div class="form-group"><label class="form-label">Розкажіть про ваш задум</label><textarea class="form-textarea form-input" placeholder="Привід, стиль, терміни, побажання..."></textarea></div>
-      <button type="submit" class="form-submit">Надіслати заявку →</button>
+      <div class="form-group"><label class="form-label">Розкажіть про ваш задум</label><textarea id="cfMessage" class="form-textarea form-input" placeholder="Привід, стиль, терміни, побажання..."></textarea></div>
+      <button type="submit" class="form-submit" id="cfSubmit">Надіслати заявку →</button>
     </form>
     <div class="form-success" id="formSuccess">
       <div class="form-success-icon">✦</div>

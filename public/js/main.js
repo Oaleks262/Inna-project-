@@ -183,14 +183,73 @@
     });
   });
 
-  /* ── Form ── */
+  /* ── Contact form → API ── */
   var contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      this.style.display = 'none';
-      document.getElementById('formSuccess').classList.add('show');
+      var btn = document.getElementById('cfSubmit');
+      btn.disabled = true;
+      btn.textContent = 'Надсилаємо...';
+      var body = {
+        name:          document.getElementById('cfName').value.trim(),
+        phone:         document.getElementById('cfPhone').value.trim(),
+        portfolioItem: document.getElementById('cfService').value,
+        message:       document.getElementById('cfMessage').value.trim(),
+        size:          '—',
+        source:        'site'
+      };
+      fetch('/api/requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
+        .then(function () {
+          contactForm.style.display = 'none';
+          document.getElementById('formSuccess').classList.add('show');
+        })
+        .catch(function () {
+          contactForm.style.display = 'none';
+          document.getElementById('formSuccess').classList.add('show');
+        });
     });
+  }
+
+  /* ── Testimonials: load from API ── */
+  var testimonialsTrack = document.getElementById('testimonialsTrack');
+  if (testimonialsTrack) {
+    fetch('/api/testimonials')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data.items || !data.items.length) return;
+        testimonialsTrack.innerHTML = '';
+        data.items.forEach(function (t, idx) {
+          var stars = '';
+          for (var s = 0; s < 5; s++) stars += '<span class="star' + (s < t.rating ? '' : ' star-empty') + '"></span>';
+          var delays = ['', ' reveal-delay-1', ' reveal-delay-2'];
+          var card = document.createElement('div');
+          card.className = 'testimonial-card reveal' + (delays[idx] || '');
+          card.innerHTML =
+            '<div class="stars">' + stars + '</div>' +
+            '<div class="testimonial-text">' + escT(t.text) + '</div>' +
+            '<div class="testimonial-author">' +
+              '<div class="author-avatar">' + escT((t.name || '?').charAt(0).toUpperCase()) + '</div>' +
+              '<div><div class="author-name">' + escT(t.name) + '</div>' +
+              '<div class="author-city">' + escT((t.city || '') + (t.service ? ' · ' + t.service : '')) + '</div></div>' +
+            '</div>';
+          testimonialsTrack.appendChild(card);
+        });
+        if ('IntersectionObserver' in window) {
+          var ioT = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visible'); ioT.unobserve(e.target); } });
+          }, { threshold: 0.15 });
+          testimonialsTrack.querySelectorAll('.reveal').forEach(function (el) { ioT.observe(el); });
+        }
+      }).catch(function () {});
+  }
+
+  function escT(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
   /* ── Homepage portfolio: load 6 items from API ── */

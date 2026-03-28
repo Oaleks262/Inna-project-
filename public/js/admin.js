@@ -477,10 +477,18 @@
   // ─── SETTINGS ──────────────────────────────────────────────────────────────
   function loadSettings() {
     api('GET', '/api/admin/settings').then(function (data) {
-      document.getElementById('sPhone').value    = data.phone    || '';
-      document.getElementById('sInstagram').value= data.instagram|| '';
-      document.getElementById('sTelegram').value = data.telegram || '';
-      document.getElementById('sAddress').value  = data.address  || '';
+      document.getElementById('sPhone').value     = data.phone     || '';
+      document.getElementById('sInstagram').value = data.instagram || '';
+      document.getElementById('sTelegram').value  = data.telegram  || '';
+      document.getElementById('sAddress').value   = data.address   || '';
+    });
+    api('GET', '/api/admin/settings/integrations').then(function (data) {
+      document.getElementById('iTelegramToken').placeholder  = data.telegramToken
+        ? 'Збережено: ' + data.telegramToken
+        : '1234567890:AAF...';
+      document.getElementById('iTelegramChatId').value = data.telegramChatId || '';
+      document.getElementById('iSiteUrl').value        = data.siteUrl        || '';
+      document.getElementById('iAdminLogin').value     = data.adminLogin     || '';
     });
   }
 
@@ -501,8 +509,8 @@
 
   document.getElementById('passwordForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    var pw    = document.getElementById('pwNew').value;
-    var conf  = document.getElementById('pwConfirm').value;
+    var pw   = document.getElementById('pwNew').value;
+    var conf = document.getElementById('pwConfirm').value;
     if (pw !== conf) { showSettingsMsg('passwordMsg', '✗ Паролі не співпадають', 'err'); return; }
     if (pw.length < 6) { showSettingsMsg('passwordMsg', '✗ Мінімум 6 символів', 'err'); return; }
     api('PUT', '/api/admin/settings/password', {
@@ -510,10 +518,37 @@
       newPassword: pw
     }).then(function (data) {
       if (data.success) {
-        showSettingsMsg('passwordMsg', '✓ Новий хеш: ' + data.newHash, 'ok');
+        showSettingsMsg('passwordMsg', data.message || '✓ Пароль змінено', 'ok');
+        document.getElementById('passwordForm').reset();
       } else {
         showSettingsMsg('passwordMsg', '✗ ' + (data.error || 'Помилка'), 'err');
       }
+    });
+  });
+
+  document.getElementById('integrationsForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var body = {
+      telegramToken:  document.getElementById('iTelegramToken').value.trim(),
+      telegramChatId: document.getElementById('iTelegramChatId').value.trim()
+    };
+    api('PUT', '/api/admin/settings/integrations', body).then(function (data) {
+      showSettingsMsg('integrationsMsg', data.message || '✓ Збережено', data.success ? 'ok' : 'err');
+      if (data.success) {
+        document.getElementById('iTelegramToken').value = '';
+        loadSettings();
+      }
+    });
+  });
+
+  document.getElementById('siteForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var body = {
+      siteUrl:    document.getElementById('iSiteUrl').value.trim(),
+      adminLogin: document.getElementById('iAdminLogin').value.trim()
+    };
+    api('PUT', '/api/admin/settings/integrations', body).then(function (data) {
+      showSettingsMsg('siteMsg', data.message || '✓ Збережено', data.success ? 'ok' : 'err');
     });
   });
 

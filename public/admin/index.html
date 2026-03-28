@@ -216,9 +216,43 @@
 
     <div class="adm-card adm-card-narrow">
       <div class="adm-card-title">Telegram бот</div>
-      <button class="adm-btn-secondary" id="testTelegramBtn">📨 Надіслати тестове повідомлення</button>
-      <span class="settings-msg" id="telegramMsg"></span>
+      <form id="integrationsForm">
+        <div class="adm-form-group">
+          <label class="adm-label">Bot Token</label>
+          <input class="adm-input" id="iTelegramToken" type="text" placeholder="1234567890:AAF...">
+          <div class="adm-form-hint">Отримати у @BotFather → /newbot</div>
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Chat ID (куди надсилати заявки)</label>
+          <input class="adm-input" id="iTelegramChatId" type="text" placeholder="-100123456789">
+          <div class="adm-form-hint">Дізнатись у @userinfobot</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <button class="adm-btn-primary" type="submit">Зберегти</button>
+          <button class="adm-btn-secondary" type="button" id="testTelegramBtn">📨 Тест</button>
+          <span class="settings-msg" id="integrationsMsg"></span>
+        </div>
+      </form>
+      <span class="settings-msg" id="telegramMsg" style="display:block;margin-top:8px"></span>
     </div>
+
+    <div class="adm-card adm-card-narrow">
+      <div class="adm-card-title">Сайт та акаунт</div>
+      <form id="siteForm">
+        <div class="adm-form-group">
+          <label class="adm-label">URL сайту</label>
+          <input class="adm-input" id="iSiteUrl" type="text" placeholder="https://inna-corset.com.ua">
+          <div class="adm-form-hint">Використовується для SEO (sitemap, og:url)</div>
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Логін адміна</label>
+          <input class="adm-input" id="iAdminLogin" type="text" placeholder="inna">
+        </div>
+        <button class="adm-btn-primary" type="submit">Зберегти</button>
+        <span class="settings-msg" id="siteMsg"></span>
+      </form>
+    </div>
+
   </section>
 
 </main>

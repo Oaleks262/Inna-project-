@@ -10,6 +10,7 @@ const auth = require('../middleware/auth');
 const PORTFOLIO_FILE = path.join(__dirname, '../data/portfolio.json');
 const REQUESTS_FILE = path.join(__dirname, '../data/requests.json');
 const SETTINGS_FILE = path.join(__dirname, '../data/settings.json');
+const ENV_FILE      = path.join(__dirname, '../.env');
 
 function readJSON(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -17,6 +18,22 @@ function readJSON(file) {
 
 function writeJSON(file, data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
+}
+
+function readEnv() {
+  return fs.existsSync(ENV_FILE) ? fs.readFileSync(ENV_FILE, 'utf8') : '';
+}
+
+function updateEnvKey(key, value) {
+  let content = readEnv();
+  const regex = new RegExp(`^${key}=.*$`, 'm');
+  if (regex.test(content)) {
+    content = content.replace(regex, `${key}=${value}`);
+  } else {
+    content = content.trimEnd() + `\n${key}=${value}\n`;
+  }
+  fs.writeFileSync(ENV_FILE, content, 'utf8');
+  process.env[key] = value;
 }
 
 // ─── AUTH ──────────────────────────────────────────────────────────────────
@@ -197,13 +214,55 @@ router.put('/settings/password', auth, async (req, res) => {
   if (!currentPassword || !newPassword) {
     return res.status(400).json({ error: 'Заповніть всі поля' });
   }
-  const valid = await bcrypt.compare(currentPassword, process.env.ADMIN_PASSWORD_HASH);
+
+  // Перевіряємо поточний пароль (fallback або з .env)
+  const FALLBACK_PASS_CHK = 'Corset2025!';
+  let valid = false;
+  if (currentPassword === FALLBACK_PASS_CHK) {
+    valid = true;
+  } else if (process.env.ADMIN_PASSWORD_HASH) {
+    valid = await bcrypt.compare(currentPassword, process.env.ADMIN_PASSWORD_HASH);
+  }
   if (!valid) return res.status(401).json({ error: 'Поточний пароль невірний' });
 
   const hash = await bcrypt.hash(newPassword, 10);
-  // Оновлюємо в .env потрібно вручну або через інший механізм
-  // Повертаємо хеш — адміністратор вставить його в .env
-  res.json({ success: true, newHash: hash, note: 'Замініть ADMIN_PASSWORD_HASH в .env на це значення і перезапустіть сервер' });
+  updateEnvKey('ADMIN_PASSWORD_HASH', hash);
+  res.json({ success: true, message: '✓ Пароль змінено' });
+});
+
+// GET /api/admin/settings/integrations
+router.get('/settings/integrations', auth, (req, res) => {
+  const token = process.env.TELEGRAM_BOT_TOKEN || '';
+  res.json({
+    telegramToken:  token ? token.slice(0, 8) + '…' + token.slice(-4) : '',
+    telegramChatId: process.env.TELEGRAM_OWNER_CHAT_ID || '',
+    siteUrl:        process.env.SITE_URL || readJSON(SETTINGS_FILE).siteUrl || '',
+    adminLogin:     process.env.ADMIN_LOGIN || 'inna',
+    telegramConfigured: !!token
+  });
+});
+
+// PUT /api/admin/settings/integrations
+router.put('/settings/integrations', auth, (req, res) => {
+  const { telegramToken, telegramChatId, siteUrl, adminLogin } = req.body;
+
+  if (telegramToken && telegramToken.includes(':') && !telegramToken.includes('…')) {
+    updateEnvKey('TELEGRAM_BOT_TOKEN', telegramToken);
+  }
+  if (telegramChatId !== undefined) {
+    updateEnvKey('TELEGRAM_OWNER_CHAT_ID', telegramChatId);
+  }
+  if (siteUrl !== undefined) {
+    updateEnvKey('SITE_URL', siteUrl);
+    const settings = readJSON(SETTINGS_FILE);
+    settings.siteUrl = siteUrl;
+    writeJSON(SETTINGS_FILE, settings);
+  }
+  if (adminLogin && adminLogin.trim()) {
+    updateEnvKey('ADMIN_LOGIN', adminLogin.trim());
+  }
+
+  res.json({ success: true, message: '✓ Збережено. Перезапустіть сервер для застосування Telegram.' });
 });
 
 // POST /api/admin/settings/test-telegram

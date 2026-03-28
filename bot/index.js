@@ -3,11 +3,18 @@ const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
-const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const OWNER_CHAT_ID = String(process.env.TELEGRAM_OWNER_CHAT_ID || '');
+const TOKEN = (process.env.TELEGRAM_BOT_TOKEN || '').trim();
+const OWNER_CHAT_ID = String(process.env.TELEGRAM_OWNER_CHAT_ID || '').trim();
 const SITE_URL = process.env.SITE_URL || 'https://inna-corset.lviv.ua';
 
 const REQUESTS_FILE = path.join(__dirname, '../data/requests.json');
+
+// Перевірка токена — має містити ':' і бути непорожнім
+if (!TOKEN || !TOKEN.includes(':')) {
+  console.warn('⚠ Telegram бот: токен не налаштований, бот не запускається.');
+  module.exports = null;
+  return;
+}
 
 function readRequests() {
   return JSON.parse(fs.readFileSync(REQUESTS_FILE, 'utf8'));
@@ -17,6 +24,11 @@ function writeRequests(data) {
 }
 
 const bot = new TelegramBot(TOKEN, { polling: true });
+
+// Тихо ігноруємо polling помилки (мережа, Telegram downtime тощо)
+bot.on('polling_error', (err) => {
+  console.warn('⚠ Telegram polling:', err.code || err.message);
+});
 
 // ─── Стан діалогу клієнтів ────────────────────────────────────────────────────
 // chat_id → { step: 'name'|'type'|'size'|'contact'|'message'|'done', name, type, size, contact, message }

@@ -90,8 +90,8 @@
     <!-- RIGHT: photo placeholder + stats -->
     <div class="hero-right">
       <div class="hero-photo-wrap">
-        <!-- Замініть на <img src="/img/hero-photo.jpg" alt="Інна Ляховська" class="hero-photo"> -->
-        <div class="hero-photo-placeholder">
+        <img src="/img/hero-photo.webp" alt="Інна Ляховська" class="hero-photo" id="heroPhoto" onerror="this.style.display='none';document.getElementById('heroPlaceholder').style.display='flex';">
+        <div class="hero-photo-placeholder" id="heroPlaceholder" style="display:none">
           <svg viewBox="0 0 100 150" fill="none">
             <path d="M50 10C30 10 15 25 12 45L10 80C10 90 15 100 25 105L35 110L35 140L50 140L50 110L65 110L75 105C85 100 90 90 90 80L88 45C85 25 70 10 50 10Z" stroke="#B8965A" stroke-width="1"/>
             <path d="M50 10L50 140" stroke="#B8965A" stroke-width="0.5" opacity="0.5"/>

@@ -41,6 +41,7 @@
     if (sec === 'dashboard') loadDashboard();
     if (sec === 'portfolio') loadPortfolio();
     if (sec === 'requests')  loadRequests('all');
+    if (sec === 'photos')    loadSitePhotos();
     if (sec === 'settings')  loadSettings();
   }
 
@@ -403,6 +404,74 @@
         loadRequests(currentReqStatus);
         loadDashboard(); // оновити бейдж
       });
+  });
+
+  // ─── SITE PHOTOS ───────────────────────────────────────────────────────────
+  function loadSitePhotos() {
+    // Оновити превью з cache-bust щоб показати актуальне фото
+    var v = '?v=' + Date.now();
+    var heroImg = document.getElementById('heroPreviewImg');
+    var aboutImg = document.getElementById('aboutPreviewImg');
+
+    heroImg.style.display = '';
+    document.getElementById('heroPreviewPlaceholder').style.display = 'none';
+    heroImg.src = '/img/hero-photo.webp' + v;
+    heroImg.onerror = function () {
+      this.style.display = 'none';
+      document.getElementById('heroPreviewPlaceholder').style.display = 'flex';
+    };
+
+    aboutImg.style.display = '';
+    document.getElementById('aboutPreviewPlaceholder').style.display = 'none';
+    aboutImg.src = '/img/inna-photo.webp' + v;
+    aboutImg.onerror = function () {
+      this.style.display = 'none';
+      document.getElementById('aboutPreviewPlaceholder').style.display = 'flex';
+    };
+  }
+
+  document.querySelectorAll('.site-photo-input').forEach(function (input) {
+    input.addEventListener('change', function () {
+      var file = this.files[0];
+      if (!file) return;
+      var type = this.getAttribute('data-type');
+      var msgEl = document.getElementById(type === 'hero' ? 'heroPhotoMsg' : 'aboutPhotoMsg');
+      var previewImg = document.getElementById(type === 'hero' ? 'heroPreviewImg' : 'aboutPreviewImg');
+      var placeholder = document.getElementById(type === 'hero' ? 'heroPreviewPlaceholder' : 'aboutPreviewPlaceholder');
+
+      msgEl.textContent = '⏳ Завантаження...';
+      msgEl.className = 'site-photo-msg';
+
+      var fd = new FormData();
+      fd.append('photo', file);
+      fd.append('type', type);
+
+      fetch('/api/admin/upload/site-photo', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+        body: fd
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.url) {
+            previewImg.style.display = '';
+            placeholder.style.display = 'none';
+            previewImg.src = data.url;
+            msgEl.textContent = '✓ Збережено';
+            msgEl.className = 'site-photo-msg ok';
+          } else {
+            msgEl.textContent = '✗ ' + (data.error || 'Помилка');
+            msgEl.className = 'site-photo-msg err';
+          }
+          setTimeout(function () { msgEl.textContent = ''; msgEl.className = 'site-photo-msg'; }, 4000);
+        })
+        .catch(function () {
+          msgEl.textContent = '✗ Помилка з\'єднання';
+          msgEl.className = 'site-photo-msg err';
+        });
+
+      this.value = ''; // reset щоб можна було завантажити знову
+    });
   });
 
   // ─── SETTINGS ──────────────────────────────────────────────────────────────

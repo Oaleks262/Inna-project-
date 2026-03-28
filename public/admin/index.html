@@ -26,6 +26,9 @@
       <span class="sidebar-icon">◷</span> Заявки
       <span class="sidebar-badge" id="newBadge" style="display:none"></span>
     </a>
+    <a class="sidebar-link" data-section="photos" href="#">
+      <span class="sidebar-icon">◎</span> Фото сайту
+    </a>
     <a class="sidebar-link" data-section="settings" href="#">
       <span class="sidebar-icon">◉</span> Налаштування
     </a>
@@ -117,6 +120,49 @@
           <tbody id="requestsTableBody"></tbody>
         </table>
       </div>
+    </div>
+  </section>
+
+  <!-- ── PHOTOS ── -->
+  <section class="adm-section" id="sec-photos">
+    <div class="adm-page-title">Фото сайту</div>
+
+    <div class="site-photos-grid">
+
+      <!-- Hero -->
+      <div class="adm-card site-photo-card">
+        <div class="adm-card-title">Фото у Hero-секції</div>
+        <div class="site-photo-preview" id="heroPreviewWrap">
+          <img id="heroPreviewImg" src="/img/hero-photo.webp" alt="Hero" onerror="this.style.display='none';document.getElementById('heroPreviewPlaceholder').style.display='flex';">
+          <div class="site-photo-placeholder" id="heroPreviewPlaceholder" style="display:none">Фото не завантажено</div>
+        </div>
+        <div class="site-photo-actions">
+          <label class="adm-btn-primary site-photo-label">
+            Завантажити фото
+            <input type="file" accept="image/*" class="site-photo-input" data-type="hero" style="display:none">
+          </label>
+          <span class="site-photo-msg" id="heroPhotoMsg"></span>
+        </div>
+        <div class="site-photo-hint">Рекомендований розмір: 900×1200 px (3:4). Будь-який формат → WebP автоматично.</div>
+      </div>
+
+      <!-- About -->
+      <div class="adm-card site-photo-card">
+        <div class="adm-card-title">Фото "Про мене"</div>
+        <div class="site-photo-preview" id="aboutPreviewWrap">
+          <img id="aboutPreviewImg" src="/img/inna-photo.webp" alt="About" onerror="this.style.display='none';document.getElementById('aboutPreviewPlaceholder').style.display='flex';">
+          <div class="site-photo-placeholder" id="aboutPreviewPlaceholder" style="display:none">Фото не завантажено</div>
+        </div>
+        <div class="site-photo-actions">
+          <label class="adm-btn-primary site-photo-label">
+            Завантажити фото
+            <input type="file" accept="image/*" class="site-photo-input" data-type="about" style="display:none">
+          </label>
+          <span class="site-photo-msg" id="aboutPhotoMsg"></span>
+        </div>
+        <div class="site-photo-hint">Рекомендований розмір: 900×1200 px (3:4). Будь-який формат → WebP автоматично.</div>
+      </div>
+
     </div>
   </section>
 

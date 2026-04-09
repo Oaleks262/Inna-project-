@@ -27,12 +27,16 @@
     window.addEventListener('resize', resize);
 
     var started = false;
-    var targetAngle = 0;  // raw angle from mouse movement
-    var smoothAngle = 0;  // smoothed angle — no jitter
+    var targetAngle = 0;
+    var smoothAngle = 0;
+    var lastMoved   = 0;
+    var IDLE_DELAY  = 1000;  // мс до "відпочинку"
+    var IDLE_ANGLE  = 45;    // кут відпочинку, °
 
     document.addEventListener('mousemove', function (e) {
       pmx = mx; pmy = my;
       mx = e.clientX; my = e.clientY;
+      lastMoved = Date.now();
 
       if (!started) {
         started = true;
@@ -41,19 +45,20 @@
       }
 
       var dx = mx - pmx, dy = my - pmy;
-      // Only update angle if mouse moved enough — kills micro-jitter
       if (dx*dx + dy*dy > 9) {
         targetAngle = Math.atan2(dy, dx) * 180 / Math.PI + 90;
       }
     });
 
     (function loop() {
-      // Smooth angle interpolation — eases towards target, no sudden jumps
-      var da = targetAngle - smoothAngle;
-      // Wrap angle delta to [-180, 180] so needle doesn't spin 340deg the wrong way
+      var isIdle  = started && lastMoved > 0 && (Date.now() - lastMoved > IDLE_DELAY);
+      var lerp    = isIdle ? 0.025 : 0.12;   // повільно при відпочинку, швидко при русі
+      var target  = isIdle ? IDLE_ANGLE : targetAngle;
+
+      var da = target - smoothAngle;
       if (da > 180)  da -= 360;
       if (da < -180) da += 360;
-      smoothAngle += da * 0.12;  // 0.12 = nice lag, raise for faster response
+      smoothAngle += da * lerp;
 
       // Position: tip of needle (SVG top center = cx=8, cy=0) must sit exactly on mx,my
       // SVG is 16×72, transform-origin default = top-left

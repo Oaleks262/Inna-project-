@@ -30,8 +30,8 @@
     var targetAngle = 0;
     var smoothAngle = 0;
     var lastMoved   = 0;
-    var IDLE_DELAY  = 1000;  // мс до "відпочинку"
-    var IDLE_ANGLE  = 45;    // кут відпочинку, °
+    var IDLE_DELAY  = 500;   // мс до "відпочинку"
+    var IDLE_ANGLE  = -45;   // нахил вліво — як стрілка миші
 
     document.addEventListener('mousemove', function (e) {
       pmx = mx; pmy = my;
@@ -52,7 +52,7 @@
 
     (function loop() {
       var isIdle  = started && lastMoved > 0 && (Date.now() - lastMoved > IDLE_DELAY);
-      var lerp    = isIdle ? 0.025 : 0.12;   // повільно при відпочинку, швидко при русі
+      var lerp    = isIdle ? 0.07 : 0.12;   // плавно при відпочинку, жваво при русі
       var target  = isIdle ? IDLE_ANGLE : targetAngle;
 
       var da = target - smoothAngle;
